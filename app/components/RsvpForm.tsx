@@ -1,44 +1,44 @@
-"use client";
+'use client';
 
-import { useActionState, useEffect, useRef, useState } from "react";
-import { submitRsvp, type RsvpFormState } from "../actions";
+import { useActionState, useEffect, useRef, useState } from 'react';
+import { submitRsvp, type RsvpFormState } from '../actions';
 
 const initialState: RsvpFormState = { ok: false };
 
 const STATUSES = [
   {
-    value: "coming",
+    value: 'coming',
     label: "I'M IN",
-    emoji: "🔥",
-    bg: "bg-lime",
-    note: "you better be",
+    emoji: '🔥',
+    bg: 'bg-lime',
+    note: 'you better be',
   },
   {
-    value: "maybe",
-    label: "MAYBE",
-    emoji: "🤔",
-    bg: "bg-yellow",
-    note: "commitment issues",
+    value: 'maybe',
+    label: 'MAYBE',
+    emoji: '🤔',
+    bg: 'bg-yellow',
+    note: 'commitment issues',
   },
   {
-    value: "cant",
+    value: 'cant',
     label: "CAN'T",
-    emoji: "💀",
-    bg: "bg-hot-pink",
-    note: "ngmi",
+    emoji: '💀',
+    bg: 'bg-hot-pink',
+    note: 'ngmi',
   },
 ] as const;
 
 export function RsvpForm() {
   const [state, formAction, pending] = useActionState(submitRsvp, initialState);
-  const [status, setStatus] = useState<string>("coming");
+  const [status, setStatus] = useState<string>('coming');
   const [shakeKey, setShakeKey] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (state.ok && formRef.current) {
       formRef.current.reset();
-      setStatus("coming");
+      setStatus('coming');
     }
     if (state.error) {
       setShakeKey((k) => k + 1);
@@ -46,15 +46,12 @@ export function RsvpForm() {
   }, [state]);
 
   return (
-    <section
-      id="rsvp"
-      className="relative z-10 px-6 py-10 sm:py-14 flex justify-center"
-    >
+    <section className="relative z-10 px-6 py-10 sm:py-14 flex justify-center">
       <form
         ref={formRef}
         action={formAction}
         key={shakeKey}
-        className={`relative w-full max-w-2xl bg-paper border-[4px] border-ink rounded-[28px] p-6 sm:p-10 hard-shadow-lg ${state.error ? "shake" : ""}`}
+        className={`relative w-full max-w-2xl bg-paper border-[4px] border-ink rounded-[28px] p-6 sm:p-10 hard-shadow-lg ${state.error ? 'shake' : ''}`}
       >
         <div className="tape -top-3 left-10 rotate-[-6deg]" />
         <div className="tape -top-3 right-10 rotate-[5deg]" />
@@ -71,8 +68,8 @@ export function RsvpForm() {
             🎤 mandatory hot topic slide
           </p>
           <p className="font-body text-sm sm:text-base mt-1">
-            Every single person brings ONE slide on a hot topic of their choice.
-            No slide = no entry. Yes we are serious. <span className="blink">.</span>
+            Every single person brings ONE slide on a hot topic of their choice. No slide = no
+            entry. Yes we are serious. <span className="blink">.</span>
           </p>
         </div>
 
@@ -83,7 +80,7 @@ export function RsvpForm() {
               name="name"
               required
               maxLength={80}
-              placeholder="government name"
+              placeholder="what do they call you"
               className="w-full bg-paper border-[3px] border-ink rounded-xl px-4 py-3 font-body focus:outline-none focus:bg-yellow/40"
             />
           </label>
@@ -93,7 +90,7 @@ export function RsvpForm() {
               name="nickname"
               required
               maxLength={40}
-              placeholder="what we should yell across the room"
+              placeholder="what should we call you"
               className="w-full bg-paper border-[3px] border-ink rounded-xl px-4 py-3 font-body focus:outline-none focus:bg-cyan/40"
             />
           </label>
@@ -101,14 +98,14 @@ export function RsvpForm() {
 
         <label className="block mt-4">
           <span className="font-marker text-lg block mb-1">
-            one fact about someone you think is coming
+            one fun fact about someone you think is coming
           </span>
           <textarea
             name="factAbout"
             required
             maxLength={280}
             rows={3}
-            placeholder="something fun. low-stakes gossip. keep it spicy not mean."
+            placeholder='e.g. "rehk cant spell villain". you can keep it anon too (no name, just the fact). and no, you cant use rehk as your fun fact.'
             className="w-full bg-paper border-[3px] border-ink rounded-xl px-4 py-3 font-body focus:outline-none focus:bg-lime/40 resize-none"
           />
         </label>
@@ -123,8 +120,8 @@ export function RsvpForm() {
                   key={s.value}
                   className={`cursor-pointer border-[3px] border-ink rounded-xl px-4 py-3 text-center transition-all font-display uppercase ${s.bg} ${
                     active
-                      ? "hard-shadow-lg translate-x-[-2px] translate-y-[-2px]"
-                      : "hard-shadow opacity-60 hover:opacity-100"
+                      ? 'hard-shadow-lg translate-x-[-2px] translate-y-[-2px]'
+                      : 'hard-shadow opacity-60 hover:opacity-100'
                   }`}
                 >
                   <input
@@ -137,23 +134,18 @@ export function RsvpForm() {
                   />
                   <div className="text-2xl">{s.emoji}</div>
                   <div className="text-xl mt-1">{s.label}</div>
-                  <div className="font-marker text-xs mt-1 normal-case opacity-80">
-                    {s.note}
-                  </div>
+                  <div className="font-marker text-xs mt-1 normal-case opacity-80">{s.note}</div>
                 </label>
               );
             })}
           </div>
         </fieldset>
 
-        {state.error && (
-          <p className="mt-4 font-marker text-hot-pink text-lg">
-            ⚠ {state.error}
-          </p>
-        )}
+        {state.error && <p className="mt-4 font-marker text-hot-pink text-lg">⚠ {state.error}</p>}
         {state.ok && (
           <p className="mt-4 font-marker text-xl bounce-in bg-lime border-[3px] border-ink rounded-xl px-4 py-3 text-ink">
-            ✨ locked in, <span className="font-display uppercase">{state.nickname}</span>. start prepping that slide.
+            ✨ locked in, <span className="font-display uppercase">{state.nickname}</span>. start
+            prepping that slide.
           </p>
         )}
 
@@ -162,7 +154,7 @@ export function RsvpForm() {
           disabled={pending}
           className="mt-6 w-full bg-ink text-paper font-display uppercase text-2xl sm:text-3xl py-4 rounded-2xl border-[4px] border-ink hard-shadow-pink transition-transform hover:translate-x-[-2px] hover:translate-y-[-2px] active:translate-x-1 active:translate-y-1 disabled:opacity-60"
         >
-          {pending ? "sending it..." : "SEND IT →"}
+          {pending ? 'sending it...' : 'SEND IT →'}
         </button>
       </form>
     </section>
