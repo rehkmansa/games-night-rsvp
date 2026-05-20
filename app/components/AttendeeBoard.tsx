@@ -46,11 +46,11 @@ function Card({ rsvp, index }: { rsvp: Rsvp; index: number }) {
       <div className="font-marker text-xs text-ink/70 mt-1">
         a.k.a. {rsvp.name}
       </div>
-      <div className="font-body text-sm mt-3 border-t-2 border-dashed border-ink/40 pt-2">
-        <span className="font-marker text-ink/60 text-xs uppercase">
-          their hot tip:
-        </span>
-        <p className="mt-1 leading-snug">&ldquo;{rsvp.factAbout}&rdquo;</p>
+      <div className="font-body text-sm mt-3 border-t-2 border-dashed border-ink/40 pt-2 flex items-center gap-2">
+        <span className="text-lg">🔒</span>
+        <p className="font-marker text-xs leading-snug uppercase text-ink/70">
+          fact sealed. revealed at games night.
+        </p>
       </div>
     </div>
   );
