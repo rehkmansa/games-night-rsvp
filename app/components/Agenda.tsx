@@ -2,9 +2,9 @@ const ITEMS = [
   {
     badge: "01",
     emoji: "🎨",
-    title: "Paint + Graffiti",
+    title: "Paint The Wall",
     blurb:
-      "Canvases, spray cans, markers, vibes. Everyone leaves with something they made (and probably paint on their fit).",
+      "You spray-paint a piece of my wall (canvas optional if you're shy). Nobody leaves with anything — it all goes UP on the wall. Congrats, you're an artist now.",
     bg: "bg-cyan",
     tilt: "tilt-left",
   },
@@ -13,7 +13,7 @@ const ITEMS = [
     emoji: "🎤",
     title: "Hot Topic Slideshow",
     blurb:
-      "Every. Single. Person. brings ONE slide on a hot topic. 90 seconds to convince the room. May god have mercy on your conspiracy.",
+      "Every person brings ONE slide on a hot topic. No time limit, go off. Example: \"boiled eggs are a scam, and if you like them, you are a liar.\" Send the slide ahead OR rock up with it.",
     bg: "bg-hot-pink text-paper",
     tilt: "tilt-right",
     star: true,
@@ -23,7 +23,7 @@ const ITEMS = [
     emoji: "🔗",
     title: "Group Wordchain",
     blurb:
-      "Last word's last letter starts the next. Hesitate, repeat, or whiff a word and you're out. Winner picks the next song.",
+      "Rehk's new game. Rules drop at the party. Just know: hesitate, repeat, or whiff and you're out.",
     bg: "bg-lime",
     tilt: "tilt-more-left",
   },
@@ -72,9 +72,24 @@ export function Agenda() {
           </p>
           <p className="font-body mt-3 text-paper/80">
             One slide. Any topic. Make us laugh, make us mad, make us google
-            something at 2am. Send it to the host before you show up if you want
-            it added to the queue.
+            something at 2am. Send it to Rehk ahead of time OR show up with it
+            — your call.
           </p>
+        </div>
+
+        <div className="mt-8 flex flex-col sm:flex-row gap-4 items-stretch">
+          <div className="flex-1 bg-orange text-paper border-[4px] border-ink rounded-3xl p-6 hard-shadow tilt-right">
+            <p className="font-display uppercase text-xl sm:text-2xl leading-tight">
+              🎁 P.S.
+            </p>
+            <p className="font-marker text-xl mt-1">
+              also accepting art as a gift.
+            </p>
+            <p className="font-body text-sm mt-2 text-paper/85">
+              if you make something extra, dropping it off is encouraged. wall
+              space is generous.
+            </p>
+          </div>
         </div>
       </div>
     </section>
