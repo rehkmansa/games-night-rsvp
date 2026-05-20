@@ -31,17 +31,24 @@ const STATUSES = [
 
 export function RsvpForm() {
   const [state, formAction, pending] = useActionState(submitRsvp, initialState);
+  const [name, setName] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [factAbout, setFactAbout] = useState('');
   const [status, setStatus] = useState<string>('coming');
-  const [shakeKey, setShakeKey] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    if (state.ok && formRef.current) {
-      formRef.current.reset();
+    if (state.ok) {
+      setName('');
+      setNickname('');
+      setFactAbout('');
       setStatus('coming');
+      return;
     }
-    if (state.error) {
-      setShakeKey((k) => k + 1);
+    if (state.error && formRef.current) {
+      formRef.current.classList.remove('shake');
+      void formRef.current.offsetWidth;
+      formRef.current.classList.add('shake');
     }
   }, [state]);
 
@@ -50,8 +57,7 @@ export function RsvpForm() {
       <form
         ref={formRef}
         action={formAction}
-        key={shakeKey}
-        className={`relative w-full max-w-2xl bg-paper border-[4px] border-ink rounded-[28px] p-6 sm:p-10 hard-shadow-lg ${state.error ? 'shake' : ''}`}
+        className="relative w-full max-w-2xl bg-paper border-[4px] border-ink rounded-[28px] p-6 sm:p-10 hard-shadow-lg"
       >
         <div className="tape -top-3 left-10 rotate-[-6deg]" />
         <div className="tape -top-3 right-10 rotate-[5deg]" />
@@ -80,6 +86,8 @@ export function RsvpForm() {
               name="name"
               required
               maxLength={80}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               placeholder="what do they call you"
               className="w-full bg-paper border-[3px] border-ink rounded-xl px-4 py-3 font-body focus:outline-none focus:bg-yellow/40"
             />
@@ -90,6 +98,8 @@ export function RsvpForm() {
               name="nickname"
               required
               maxLength={40}
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
               placeholder="what should we call you"
               className="w-full bg-paper border-[3px] border-ink rounded-xl px-4 py-3 font-body focus:outline-none focus:bg-cyan/40"
             />
@@ -105,6 +115,8 @@ export function RsvpForm() {
             required
             maxLength={280}
             rows={3}
+            value={factAbout}
+            onChange={(e) => setFactAbout(e.target.value)}
             placeholder='e.g. "rehk cant spell villain". you can keep it anon too (no name, just the fact). and no, you cant use rehk as your fun fact.'
             className="w-full bg-paper border-[3px] border-ink rounded-xl px-4 py-3 font-body focus:outline-none focus:bg-lime/40 resize-none"
           />
