@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Games Night RSVP
 
-## Getting Started
+A loud, playful RSVP page for a small games night. Friends drop their name, a
+nickname, one fact about somebody else they think is coming, and pick a status.
+Everyone sees the live attendee board.
 
-First, run the development server:
+## Stack
+
+- Next.js (App Router) + Tailwind v4
+- Vercel Blob — single `rsvps.json` blob holds all entries
+- Server actions for writes, server-rendered for reads
+
+## Local dev
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The page renders without a Blob token (attendee board is just empty). Form
+submissions need the token — see deploy steps below.
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Push this repo to GitHub.
+2. Import it on [vercel.com/new](https://vercel.com/new).
+3. In the project's **Storage** tab, create a new **Blob** store and connect it.
+   Vercel auto-populates `BLOB_READ_WRITE_TOKEN` as an env var for you.
+4. Redeploy. Done.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+To pull the env locally:
+
+```bash
+npx vercel env pull .env.local
+```
+
+## Editing the party details
+
+`app/components/Hero.tsx` — the three info chips (date, time, location) are
+placeholders. Swap them for real values.
+
+## Viewing RSVPs
+
+Two options:
+
+- The Attendee Wall on the page itself.
+- Vercel dashboard → your project → Storage → Blob → open `rsvps.json` to see
+  the raw JSON.
