@@ -10,6 +10,9 @@ export function Hero() {
       <div className="absolute bottom-2 left-10 rotate-[-8deg] bg-lime text-ink border-[3px] border-ink px-3 py-1 font-marker text-sm hard-shadow hidden md:block">
         PAINT INCLUDED
       </div>
+      <div className="absolute bottom-12 right-6 sm:right-20 rotate-[6deg] bg-orange text-paper border-[3px] border-ink px-3 py-1 font-marker text-sm hard-shadow hidden md:block">
+        🎁 art accepted as gift
+      </div>
 
       <p className="font-marker text-xl sm:text-2xl text-hot-pink rotate-[-2deg] mb-2">
         you, your friends, certified chaos —
@@ -28,13 +31,13 @@ export function Hero() {
 
       <div className="mt-8 flex flex-wrap gap-3 justify-center font-display text-sm sm:text-base uppercase">
         <span className="bg-ink text-paper px-4 py-2 sticker tilt-left">
-          📅 Date: TBD &lt;edit me&gt;
+          📅 May 30th
         </span>
         <span className="bg-violet text-paper px-4 py-2 sticker tilt-right">
-          ⏰ Time: TBD &lt;edit me&gt;
+          ⏰ 5 - 8 PM
         </span>
         <span className="bg-orange text-paper px-4 py-2 sticker tilt-more-left">
-          📍 Where: TBD &lt;edit me&gt;
+          📍 Rehk&apos;s House
         </span>
       </div>
     </section>
