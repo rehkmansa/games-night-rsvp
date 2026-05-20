@@ -40,7 +40,6 @@ export async function submitRsvp(
     };
   }
 
-  const entries = await readRsvps();
   const entry: Rsvp = {
     id: randomUUID(),
     name,
@@ -49,11 +48,16 @@ export async function submitRsvp(
     status,
     createdAt: new Date().toISOString(),
   };
+
   try {
+    const entries = await readRsvps();
     await writeRsvps([...entries, entry]);
-  } catch {
-    return { ok: false, error: "Couldn't save that. Try again in a sec." };
+  } catch (err) {
+    console.error("[rsvp] save failed:", err);
+    const detail = err instanceof Error ? err.message : "unknown error";
+    return { ok: false, error: `Couldn't save that — ${detail}` };
   }
+
   revalidatePath("/");
   return { ok: true, nickname };
 }
