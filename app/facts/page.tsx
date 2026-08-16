@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { FactsSlider } from "../components/FactsSlider";
+import { devOnly } from "../lib/dev-only";
 import { readRsvps } from "../lib/storage";
 
 export const dynamic = "force-dynamic";
 
 export default async function FactsPage() {
+  devOnly();
   const rsvps = await readRsvps();
 
   return (
