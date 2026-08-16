@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Happy Birthday Oshioke. Saturday 22 August, 12 till 4, Iyeru Okin at the Radisson Blu.";
+  "Happy Birthday Oshioke. Saturday 22 August, arrive for 12 noon, Iyeru Okin at the Radisson Blu.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -11,7 +11,7 @@ const RIBBON = ["#c9302b", "#e9a317", "#1c7c7c", "#10362e"];
 
 const DETAILS = [
   { label: "THE DAY", value: "Saturday 22 August" },
-  { label: "THE HOURS", value: "12 till 4" },
+  { label: "ARRIVAL", value: "12 noon" },
   { label: "THE PLACE", value: "Iyeru Okin" },
 ];
 

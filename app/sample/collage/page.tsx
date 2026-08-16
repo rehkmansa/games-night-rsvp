@@ -23,7 +23,7 @@ const LETTERS = [
 
 const BANDS = [
   { label: "the date", value: "Sat 22 August", scrawl: "put it in your phone", bg: "#232323", fg: "#FFFFFF", side: "left" },
-  { label: "the time", value: "12 till 4", scrawl: "come early, stay late", bg: "#2E4374", fg: "#FFFFFF", side: "right" },
+  { label: "the time", value: "12 noon", scrawl: "please be on time", bg: "#2E4374", fg: "#FFFFFF", side: "right" },
   { label: "the place", value: "Iyeru Okin", scrawl: "at the Radisson Blu", bg: "#E8892C", fg: "#241B12", side: "left" },
 ];
 
@@ -109,7 +109,7 @@ export default function CollageSample() {
           </div>
 
           <span className={`e-badge e-badge-1 ${marker.className}`}>no gifts, just show up</span>
-          <span className={`e-badge e-badge-2 ${marker.className}`}>4 hours only</span>
+          <span className={`e-badge e-badge-2 ${marker.className}`}>arrive on time</span>
         </section>
 
         {/* bands */}
@@ -238,7 +238,7 @@ export default function CollageSample() {
 
         <footer className={`e-foot ${mono.className}`}>
           <span>IYERU OKIN · RADISSON BLU</span>
-          <span>22.08.26 · 12:00 TO 16:00</span>
+          <span>22.08.26 · ARRIVE 12:00</span>
         </footer>
       </div>
     </div>

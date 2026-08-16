@@ -21,7 +21,7 @@ const body = Karla({
 const SITE_URL = "https://oshioke-rsvp.vercel.app";
 const TITLE = "Oshioke's Birthday · Sat 22 August";
 const DESCRIPTION =
-  "12 till 4 at Iyeru Okin, Radisson Blu. RSVP and leave him a birthday wish under a secret name. He has to guess who wrote what.";
+  "Arrive for 12 noon at Iyeru Okin, Radisson Blu. RSVP and leave him a birthday wish under a secret name. He has to guess who wrote what.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

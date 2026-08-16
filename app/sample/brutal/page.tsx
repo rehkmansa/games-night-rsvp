@@ -21,7 +21,7 @@ const STATUS_LABEL: Record<string, string> = {
 
 const DETAILS = [
   { label: "The day", value: "Sat 22 August", aside: "clear your afternoon", bg: "bg-hot-pink", fg: "text-ink" },
-  { label: "The hours", value: "12 till 4", aside: "four hours, that's it", bg: "bg-cyan", fg: "text-ink" },
+  { label: "Arrival", value: "12 noon", aside: "come on time", bg: "bg-cyan", fg: "text-ink" },
   { label: "The place", value: "Iyeru Okin", aside: "at the Radisson Blu", bg: "bg-lime", fg: "text-ink" },
 ];
 
@@ -35,7 +35,7 @@ export default function BrutalSample() {
       <div className="overflow-hidden border-b-4 border-paper bg-lime py-2">
         <div className="flex animate-[d-slide_24s_linear_infinite] gap-8 whitespace-nowrap font-display text-sm uppercase tracking-[0.2em] text-ink">
           {Array.from({ length: 6 }).map((_, i) => (
-            <span key={i}>Oshioke · 22.08 · Iyeru Okin, Radisson Blu · 12 till 4 ·</span>
+            <span key={i}>Oshioke · 22.08 · Iyeru Okin, Radisson Blu · arrive 12 noon ·</span>
           ))}
         </div>
       </div>

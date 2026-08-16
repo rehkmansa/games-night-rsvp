@@ -75,7 +75,7 @@ export default function PinSample() {
           oshioke&apos;s birthday <Bow className="f-title-bow" />
         </h1>
         <p className={`f-board-sub ${hand.className}`}>
-          saturday 22 august · 12 till 4 · iyeru okin, at the radisson blu
+          saturday 22 august · 12 noon · iyeru okin, at the radisson blu
         </p>
         <div className="f-board-meta">
           <span>{GUESTS.length} pins</span>
@@ -137,8 +137,8 @@ export default function PinSample() {
         <Pin>
           <div className="f-card f-card-butter">
             <p className="f-kicker">doors</p>
-            <p className={`f-big f-big-sm ${serif.className}`}>12 till 4</p>
-            <p className="f-under">four hours, then home</p>
+            <p className={`f-big f-big-sm ${serif.className}`}>12 noon</p>
+            <p className="f-under">arrive on time</p>
           </div>
         </Pin>
 

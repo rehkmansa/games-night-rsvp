@@ -2,7 +2,7 @@ import { RsvpForm } from "./RsvpForm";
 
 const DETAILS = [
   { label: "The day", value: "Saturday 22 August" },
-  { label: "The hours", value: "12 till 4" },
+  { label: "Arrival", value: "12 noon" },
   { label: "The place", value: "Iyeru Okin", note: "at the Radisson Blu" },
 ];
 

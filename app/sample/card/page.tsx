@@ -66,8 +66,8 @@ export default function CardSample() {
             <dd>Saturday 22 August</dd>
           </div>
           <div>
-            <dt>The hours</dt>
-            <dd>12 till 4</dd>
+            <dt>Arrival</dt>
+            <dd>12 noon</dd>
           </div>
           <div>
             <dt>The place</dt>
