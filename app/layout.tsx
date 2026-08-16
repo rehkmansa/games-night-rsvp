@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Caveat, Fraunces, Karla } from "next/font/google";
 import "./globals.css";
 
@@ -18,10 +18,34 @@ const body = Karla({
   subsets: ["latin"],
 });
 
+const SITE_URL = "https://oshioke-rsvp.vercel.app";
+const TITLE = "Oshioke's Birthday · Sat 22 August";
+const DESCRIPTION =
+  "12 till 4 at Iyeru Okin, Radisson Blu. RSVP and leave him a birthday wish under a secret name. He has to guess who wrote what.";
+
 export const metadata: Metadata = {
-  title: "Oshioke's Birthday",
-  description:
-    "Saturday 22 August, 12 till 4, Iyeru Okin at the Radisson Blu. Leave a wish under a secret name.",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  applicationName: "Oshioke's Birthday",
+  keywords: ["Oshioke", "birthday", "RSVP", "Iyeru Okin", "Radisson Blu", "22 August"],
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: "Oshioke's Birthday",
+    title: TITLE,
+    description: DESCRIPTION,
+    locale: "en_NG",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#10362e",
 };
 
 export default function RootLayout({
