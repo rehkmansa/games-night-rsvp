@@ -12,10 +12,13 @@ const STATUS_LABEL: Record<Rsvp["status"], string> = {
   cant: "💀 bailed",
 };
 
+const AUTO_ADVANCE_MS = 4000;
+
 export function FactsSlider({ rsvps }: { rsvps: Rsvp[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     const slides = slideRefs.current.filter(Boolean) as HTMLDivElement[];
@@ -33,7 +36,9 @@ export function FactsSlider({ rsvps }: { rsvps: Rsvp[] }) {
       { root: trackRef.current, threshold: 0.6 }
     );
 
-    slides.forEach((slide) => observer.observe(slide));
+    slides.forEach((slide) => {
+      observer.observe(slide);
+    });
     return () => observer.disconnect();
   }, [rsvps.length]);
 
@@ -46,10 +51,27 @@ export function FactsSlider({ rsvps }: { rsvps: Rsvp[] }) {
     });
   };
 
+  // Auto-advance through the slides, wrapping back to the start. Re-arms each
+  // time the active slide changes; pauses while the user is interacting.
+  useEffect(() => {
+    if (paused || rsvps.length <= 1) return;
+    const next = (active + 1) % rsvps.length;
+    const timer = setTimeout(() => {
+      slideRefs.current[next]?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "start",
+      });
+    }, AUTO_ADVANCE_MS);
+    return () => clearTimeout(timer);
+  }, [active, paused, rsvps.length]);
+
   return (
     <div className="relative">
       <div
         ref={trackRef}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
         className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar"
         style={{ scrollbarWidth: "none" }}
       >
@@ -73,10 +95,10 @@ export function FactsSlider({ rsvps }: { rsvps: Rsvp[] }) {
                 </div>
 
                 <div className="font-display uppercase text-5xl sm:text-7xl leading-none mt-5">
-                  {rsvp.nickname}
+                  {rsvp.secretName}
                 </div>
                 <div className="font-marker text-sm sm:text-base text-ink/70 mt-2">
-                  a.k.a. {rsvp.name}
+                  a.k.a. {rsvp.realName ?? "identity withheld"}
                 </div>
 
                 <div className="mt-6 border-t-2 border-dashed border-ink/40 pt-5">
@@ -84,7 +106,7 @@ export function FactsSlider({ rsvps }: { rsvps: Rsvp[] }) {
                     the unsealed fact 🔓
                   </div>
                   <p className="font-body text-xl sm:text-3xl leading-snug">
-                    {rsvp.factAbout}
+                    {rsvp.wish}
                   </p>
                 </div>
               </div>
@@ -111,7 +133,7 @@ export function FactsSlider({ rsvps }: { rsvps: Rsvp[] }) {
               key={rsvp.id}
               type="button"
               onClick={() => goTo(idx)}
-              aria-label={`Go to ${rsvp.nickname}`}
+              aria-label={`Go to ${rsvp.secretName}`}
               className={`rounded-full border-2 border-ink transition-all ${
                 idx === active ? "w-5 h-5 bg-hot-pink" : "w-3 h-3 bg-paper"
               }`}

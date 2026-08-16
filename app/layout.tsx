@@ -1,27 +1,27 @@
 import type { Metadata } from "next";
-import { Archivo_Black, Permanent_Marker, Space_Grotesk } from "next/font/google";
+import { Caveat, Fraunces, Karla } from "next/font/google";
 import "./globals.css";
 
-const display = Archivo_Black({
+const display = Fraunces({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: "400",
+  axes: ["SOFT", "WONK", "opsz"],
 });
 
-const marker = Permanent_Marker({
-  variable: "--font-marker",
+const hand = Caveat({
+  variable: "--font-hand",
   subsets: ["latin"],
-  weight: "400",
 });
 
-const body = Space_Grotesk({
+const body = Karla({
   variable: "--font-body",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "GAMES NIGHT // RSVP",
-  description: "Paint. Hot takes. Wordchain. Don't be late, don't be boring.",
+  title: "Oshioke's Birthday",
+  description:
+    "Saturday 22 August, 12 till 4, Iyeru Okin at the Radisson Blu. Leave a wish under a secret name.",
 };
 
 export default function RootLayout({
@@ -32,9 +32,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${marker.variable} ${body.variable} h-full antialiased`}
+      className={`${display.variable} ${hand.variable} ${body.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col relative">{children}</body>
+      <body className="relative flex min-h-full flex-col">{children}</body>
     </html>
   );
 }

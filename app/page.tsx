@@ -1,22 +1,20 @@
-import { Agenda } from "./components/Agenda";
-import { AttendeeBoard } from "./components/AttendeeBoard";
-import { Hero } from "./components/Hero";
-import { RsvpForm } from "./components/RsvpForm";
+import { InviteCard } from "./components/InviteCard";
+import { WishWall } from "./components/WishWall";
+import { toPublicRsvps, wishesAreOpen } from "./lib/reveal";
 import { readRsvps } from "./lib/storage";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const rsvps = await readRsvps();
+  const entries = await readRsvps();
+  const open = wishesAreOpen();
 
   return (
-    <main className="relative flex-1 flex flex-col">
-      <Hero />
-      <RsvpForm />
-      <AttendeeBoard rsvps={rsvps} />
-      <Agenda />
-      <footer className="relative z-10 mt-8 mb-10 text-center font-marker text-ink/60">
-        made with paint-stained fingers ✦ no slides = no entry
+    <main className="flex flex-col items-center gap-10 px-5 pb-20 pt-7 sm:gap-[88px] sm:px-6 sm:pt-16">
+      <InviteCard />
+      <WishWall entries={toPublicRsvps(entries)} open={open} />
+      <footer className="font-hand text-3xl -rotate-2 text-stock/75">
+        <p>see you at Iyeru Okin</p>
       </footer>
     </main>
   );

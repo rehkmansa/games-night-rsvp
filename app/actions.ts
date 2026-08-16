@@ -8,7 +8,7 @@ import type { Rsvp, RsvpStatus } from "./lib/types";
 export type RsvpFormState = {
   ok: boolean;
   error?: string;
-  nickname?: string;
+  secretName?: string;
 };
 
 const VALID_STATUSES: RsvpStatus[] = ["coming", "maybe", "cant"];
@@ -21,16 +21,20 @@ export async function submitRsvp(
   _prev: RsvpFormState,
   formData: FormData,
 ): Promise<RsvpFormState> {
-  const name = clean(formData.get("name"), 80);
-  const nickname = clean(formData.get("nickname"), 40);
-  const factAbout = clean(formData.get("factAbout"), 280);
+  const secretName = clean(formData.get("secretName"), 60);
+  const wish = clean(formData.get("wish"), 500);
   const status = clean(formData.get("status"), 10) as RsvpStatus;
+  const reveal = clean(formData.get("reveal"), 5) === "yes";
+  const realName = clean(formData.get("realName"), 80);
 
-  if (!name || !nickname || !factAbout) {
-    return { ok: false, error: "Fill in all three fields, no cheating." };
+  if (!secretName || !wish) {
+    return { ok: false, error: "Give us a secret name and a wish." };
   }
   if (!VALID_STATUSES.includes(status)) {
-    return { ok: false, error: "Pick a status — coming, maybe, or can't." };
+    return { ok: false, error: "Pick one: coming, maybe, or can't make it." };
+  }
+  if (reveal && !realName) {
+    return { ok: false, error: "You said to tell him, so add your real name." };
   }
 
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
@@ -42,11 +46,11 @@ export async function submitRsvp(
 
   const entry: Rsvp = {
     id: randomUUID(),
-    name,
-    nickname,
-    factAbout,
+    secretName,
+    wish,
     status,
     createdAt: new Date().toISOString(),
+    ...(reveal ? { realName } : {}),
   };
 
   try {
@@ -59,5 +63,5 @@ export async function submitRsvp(
   }
 
   revalidatePath("/");
-  return { ok: true, nickname };
+  return { ok: true, secretName };
 }

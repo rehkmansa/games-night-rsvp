@@ -1,115 +1,114 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #0a0a0a;
-  --color-paper: #fff8e7;
-  --color-hot-pink: #ff2d87;
-  --color-lime: #b6ff3c;
-  --color-cyan: #2de2e6;
-  --color-yellow: #ffe600;
-  --color-orange: #ff6b00;
-  --color-violet: #7a5cff;
+  --color-pine: #10362e;
+  --color-pine-deep: #0b2721;
+  --color-stock: #fbf3e2;
+  --color-ink: #17130e;
+  --color-ink-soft: #5b5245;
+  --color-red: #c9302b;
+  --color-red-deep: #a9241f;
+  --color-marigold: #e9a317;
+  --color-teal: #1c7c7c;
 
   --font-display: var(--font-display);
-  --font-marker: var(--font-marker);
+  --font-hand: var(--font-hand);
   --font-body: var(--font-body);
 }
 
 html,
 body {
-  background-color: var(--color-paper);
-  color: var(--color-ink);
+  background-color: var(--color-pine-deep);
+  color: var(--color-stock);
 }
 
 body {
   font-family: var(--font-body), system-ui, sans-serif;
   background-image:
-    radial-gradient(circle at 10% 10%, rgba(255, 45, 135, 0.18) 0, transparent 35%),
-    radial-gradient(circle at 90% 20%, rgba(45, 226, 230, 0.18) 0, transparent 35%),
-    radial-gradient(circle at 50% 95%, rgba(182, 255, 60, 0.22) 0, transparent 40%),
-    radial-gradient(circle at 80% 80%, rgba(122, 92, 255, 0.18) 0, transparent 35%);
+    radial-gradient(ellipse at 20% 0%, rgba(233, 163, 23, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 18%, rgba(28, 124, 124, 0.22) 0%, transparent 50%),
+    linear-gradient(180deg, var(--color-pine) 0%, var(--color-pine-deep) 100%);
   background-attachment: fixed;
 }
 
-/* Subtle paper grain */
-body::before {
+/* The card sits on the ground like a real piece of stock: an inner keyline
+   and a long soft drop, never a border. */
+.card-stock {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.5) inset,
+    0 26px 60px -20px rgba(0, 0, 0, 0.55);
+}
+
+.card-keyline::after {
   content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image:
-    radial-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
-    radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-  background-size: 3px 3px, 7px 7px;
-  background-position: 0 0, 1px 2px;
-  opacity: 0.45;
-  mix-blend-mode: multiply;
-}
-
-.hard-shadow {
-  box-shadow: 6px 6px 0 0 var(--color-ink);
-}
-
-.hard-shadow-lg {
-  box-shadow: 10px 10px 0 0 var(--color-ink);
-}
-
-.hard-shadow-pink {
-  box-shadow: 6px 6px 0 0 var(--color-hot-pink);
-}
-
-.sticker {
-  border: 3px solid var(--color-ink);
-  border-radius: 18px;
-  box-shadow: 6px 6px 0 0 var(--color-ink);
-}
-
-.tape {
   position: absolute;
-  width: 90px;
-  height: 26px;
-  background: rgba(255, 230, 0, 0.85);
-  border: 1.5px dashed rgba(0, 0, 0, 0.35);
-  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+  inset: 10px;
+  border: 1px solid rgba(23, 19, 14, 0.14);
+  border-radius: 2px;
+  pointer-events: none;
 }
 
-.tilt-left { transform: rotate(-2deg); }
-.tilt-right { transform: rotate(1.5deg); }
-.tilt-more-left { transform: rotate(-4deg); }
-.tilt-more-right { transform: rotate(3deg); }
-
-@keyframes wobble {
-  0%, 100% { transform: rotate(-1.5deg); }
-  50% { transform: rotate(1.5deg); }
+.dashed-rule {
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(23, 19, 14, 0.3) 0 6px,
+    transparent 6px 12px
+  );
 }
-.wobble { animation: wobble 4s ease-in-out infinite; }
+
+/* Envelope flap: a triangle folded down over the top of each wish card. */
+.env-flap {
+  background: linear-gradient(175deg, rgba(23, 19, 14, 0.1), rgba(23, 19, 14, 0.03));
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
 
 @keyframes bounce-in {
-  0% { transform: scale(0.7) rotate(-6deg); opacity: 0; }
-  60% { transform: scale(1.05) rotate(2deg); opacity: 1; }
-  100% { transform: scale(1) rotate(0); opacity: 1; }
+  0% {
+    transform: scale(0.72) rotate(-5deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.04) rotate(1deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
 }
-.bounce-in { animation: bounce-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
-
-@keyframes blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0.2; }
+.bounce-in {
+  animation: bounce-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.blink { animation: blink 1s steps(2) infinite; }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-4px); }
-  40%, 80% { transform: translateX(4px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-4px);
+  }
+  40%,
+  80% {
+    transform: translateX(4px);
+  }
 }
-.shake { animation: shake 0.4s ease-in-out; }
-
-.outline-text {
-  -webkit-text-stroke: 2px var(--color-ink);
-  color: transparent;
+.shake {
+  animation: shake 0.4s ease-in-out;
 }
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

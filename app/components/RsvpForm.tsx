@@ -1,174 +1,163 @@
-'use client';
+"use client";
 
-import { useActionState, useEffect, useRef, useState } from 'react';
-import { submitRsvp, type RsvpFormState } from '../actions';
+import { useActionState, useEffect, useRef, useState } from "react";
+import { submitRsvp, type RsvpFormState } from "../actions";
 
 const initialState: RsvpFormState = { ok: false };
 
 const STATUSES = [
-  {
-    value: 'coming',
-    label: "I'M IN",
-    emoji: '🔥',
-    bg: 'bg-lime',
-    note: 'you better be',
-  },
-  {
-    value: 'maybe',
-    label: 'MAYBE',
-    emoji: '🤔',
-    bg: 'bg-yellow',
-    note: 'commitment issues',
-  },
-  {
-    value: 'cant',
-    label: "CAN'T",
-    emoji: '💀',
-    bg: 'bg-hot-pink',
-    note: 'ngmi',
-  },
+  { value: "coming", label: "Coming" },
+  { value: "maybe", label: "Maybe" },
+  { value: "cant", label: "Can't make it" },
 ] as const;
+
+const fieldClass =
+  "rounded-[3px] border-[1.5px] border-ink/30 bg-white/60 px-4 py-3 text-base text-ink outline-none placeholder:text-ink-soft/55 focus:border-red focus:bg-white";
+
+const chipClass =
+  "cursor-pointer rounded-full border-[1.5px] px-5 py-2.5 text-[15px] font-semibold transition-colors";
 
 export function RsvpForm() {
   const [state, formAction, pending] = useActionState(submitRsvp, initialState);
-  const [name, setName] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [factAbout, setFactAbout] = useState('');
-  const [status, setStatus] = useState<string>('coming');
+  const [status, setStatus] = useState<string>("coming");
+  const [reveal, setReveal] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (state.ok) {
-      setName('');
-      setNickname('');
-      setFactAbout('');
-      setStatus('coming');
+      formRef.current?.reset();
+      setStatus("coming");
+      setReveal(false);
       return;
     }
     if (state.error && formRef.current) {
-      formRef.current.classList.remove('shake');
+      formRef.current.classList.remove("shake");
       void formRef.current.offsetWidth;
-      formRef.current.classList.add('shake');
+      formRef.current.classList.add("shake");
     }
   }, [state]);
 
   return (
-    <section className="relative z-10 px-6 py-10 sm:py-14 flex justify-center">
-      <form
-        ref={formRef}
-        action={formAction}
-        className="relative w-full max-w-2xl bg-paper border-[4px] border-ink rounded-[28px] p-6 sm:p-10 hard-shadow-lg"
-      >
-        <div className="tape -top-3 left-10 rotate-[-6deg]" />
-        <div className="tape -top-3 right-10 rotate-[5deg]" />
+    <form ref={formRef} action={formAction} className="flex flex-col gap-6">
+      <label className="flex flex-col gap-2">
+        <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-ink-soft">
+          Your secret name
+        </span>
+        <input
+          name="secretName"
+          required
+          maxLength={60}
+          placeholder="Aux Gremlin. Person From Church. Jollof Enthusiast."
+          className={fieldClass}
+        />
+        <span className="text-[13px] italic text-ink-soft">
+          The only name on your wish. Make it guessable, or don&apos;t.
+        </span>
+      </label>
 
-        <h2 className="font-display text-4xl sm:text-5xl uppercase mb-2 leading-none">
-          RSVP <span className="bg-cyan px-2 inline-block tilt-right">now</span>
-        </h2>
-        <p className="font-marker text-lg text-ink/80 mb-6">
-          take 30 seconds, then go make your slide.
+      <fieldset className="border-0 p-0">
+        <legend className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.2em] text-ink-soft">
+          Are you coming
+        </legend>
+        <div className="flex flex-wrap gap-2.5">
+          {STATUSES.map((s) => {
+            const active = status === s.value;
+            return (
+              <label
+                key={s.value}
+                className={`${chipClass} ${
+                  active
+                    ? "border-pine bg-pine text-stock"
+                    : "border-ink/30 text-ink-soft hover:border-ink hover:text-ink"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="status"
+                  value={s.value}
+                  checked={active}
+                  onChange={() => setStatus(s.value)}
+                  className="sr-only"
+                />
+                {s.label}
+              </label>
+            );
+          })}
+        </div>
+      </fieldset>
+
+      <label className="flex flex-col gap-2">
+        <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-ink-soft">
+          Your birthday wish
+        </span>
+        <textarea
+          name="wish"
+          required
+          maxLength={500}
+          rows={4}
+          placeholder="Sealed until noon on the 22nd. Say the sweet thing."
+          className={`${fieldClass} resize-y`}
+        />
+      </label>
+
+      <div className="flex flex-col gap-3 rounded border-[1.5px] border-dashed border-marigold/70 bg-marigold/15 p-4">
+        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-ink-soft">
+          Do you want him to know?
         </p>
-
-        <div className="mb-5 bg-hot-pink text-paper border-[3px] border-ink rounded-2xl p-4 sm:p-5 hard-shadow rotate-[-1deg]">
-          <p className="font-display uppercase text-xl sm:text-2xl leading-tight">
-            🎤 mandatory hot topic slide
-          </p>
-          <p className="font-body text-sm sm:text-base mt-1">
-            Every single person brings ONE slide on a hot topic of their choice. No slide = no
-            entry. Yes we are serious. <span className="blink">.</span>
-          </p>
+        <input type="hidden" name="reveal" value={reveal ? "yes" : "no"} />
+        <div className="flex flex-wrap gap-2.5">
+          <button
+            type="button"
+            onClick={() => setReveal(false)}
+            className={`${chipClass} ${
+              !reveal
+                ? "border-pine bg-pine text-stock"
+                : "border-ink/30 text-ink-soft hover:border-ink hover:text-ink"
+            }`}
+          >
+            Keep me a mystery
+          </button>
+          <button
+            type="button"
+            onClick={() => setReveal(true)}
+            className={`${chipClass} ${
+              reveal
+                ? "border-pine bg-pine text-stock"
+                : "border-ink/30 text-ink-soft hover:border-ink hover:text-ink"
+            }`}
+          >
+            Fine, tell him
+          </button>
         </div>
-
-        <div className="grid sm:grid-cols-2 gap-4">
-          <label className="block">
-            <span className="font-marker text-lg block mb-1">your name</span>
+        {reveal && (
+          <label className="bounce-in mt-1 flex flex-col gap-2">
+            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-ink-soft">
+              Your real name
+            </span>
             <input
-              name="name"
-              required
+              name="realName"
               maxLength={80}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="what do they call you"
-              className="w-full bg-paper border-[3px] border-ink rounded-xl px-4 py-3 font-body focus:outline-none focus:bg-yellow/40"
+              placeholder="Sits beside your secret name on the day"
+              className={`${fieldClass} bg-white`}
             />
           </label>
-          <label className="block">
-            <span className="font-marker text-lg block mb-1">nickname</span>
-            <input
-              name="nickname"
-              required
-              maxLength={40}
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-              placeholder="what should we call you"
-              className="w-full bg-paper border-[3px] border-ink rounded-xl px-4 py-3 font-body focus:outline-none focus:bg-cyan/40"
-            />
-          </label>
-        </div>
-
-        <label className="block mt-4">
-          <span className="font-marker text-lg block mb-1">
-            one fun fact about someone you think is coming
-          </span>
-          <textarea
-            name="factAbout"
-            required
-            maxLength={280}
-            rows={3}
-            value={factAbout}
-            onChange={(e) => setFactAbout(e.target.value)}
-            placeholder='e.g. "rehk cant spell villain". you can keep it anon too (no name, just the fact). and no, you cant use rehk as your fun fact.'
-            className="w-full bg-paper border-[3px] border-ink rounded-xl px-4 py-3 font-body focus:outline-none focus:bg-lime/40 resize-none"
-          />
-        </label>
-
-        <fieldset className="mt-6">
-          <legend className="font-marker text-lg mb-2">are you coming?</legend>
-          <div className="grid sm:grid-cols-3 gap-3">
-            {STATUSES.map((s) => {
-              const active = status === s.value;
-              return (
-                <label
-                  key={s.value}
-                  className={`cursor-pointer border-[3px] border-ink rounded-xl px-4 py-3 text-center transition-all font-display uppercase ${s.bg} ${
-                    active
-                      ? 'hard-shadow-lg translate-x-[-2px] translate-y-[-2px]'
-                      : 'hard-shadow opacity-60 hover:opacity-100'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="status"
-                    value={s.value}
-                    checked={active}
-                    onChange={() => setStatus(s.value)}
-                    className="sr-only"
-                  />
-                  <div className="text-2xl">{s.emoji}</div>
-                  <div className="text-xl mt-1">{s.label}</div>
-                  <div className="font-marker text-xs mt-1 normal-case opacity-80">{s.note}</div>
-                </label>
-              );
-            })}
-          </div>
-        </fieldset>
-
-        {state.error && <p className="mt-4 font-marker text-hot-pink text-lg">⚠ {state.error}</p>}
-        {state.ok && (
-          <p className="mt-4 font-marker text-xl bounce-in bg-lime border-[3px] border-ink rounded-xl px-4 py-3 text-ink">
-            ✨ locked in, <span className="font-display uppercase">{state.nickname}</span>. start
-            prepping that slide.
-          </p>
         )}
+      </div>
 
-        <button
-          type="submit"
-          disabled={pending}
-          className="mt-6 w-full bg-ink text-paper font-display uppercase text-2xl sm:text-3xl py-4 rounded-2xl border-[4px] border-ink hard-shadow-pink transition-transform hover:translate-x-[-2px] hover:translate-y-[-2px] active:translate-x-1 active:translate-y-1 disabled:opacity-60"
-        >
-          {pending ? 'sending it...' : 'SEND IT →'}
-        </button>
-      </form>
-    </section>
+      {state.error && <p className="font-hand text-2xl text-red">{state.error}</p>}
+      {state.ok && (
+        <p className="bounce-in rounded border-[1.5px] border-teal bg-teal/15 px-4 py-3 font-hand text-2xl text-teal">
+          Sealed. See you on the 22nd, {state.secretName}.
+        </p>
+      )}
+
+      <button
+        type="submit"
+        disabled={pending}
+        className="cursor-pointer self-start rounded-full bg-red px-9 py-4 text-sm font-bold uppercase tracking-[0.06em] text-stock transition-all hover:-translate-y-px hover:bg-red-deep disabled:opacity-60"
+      >
+        {pending ? "Sealing..." : "Seal it"}
+      </button>
+    </form>
   );
 }
