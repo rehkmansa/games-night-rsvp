@@ -3,42 +3,34 @@
 import Link from "next/link";
 
 const OPTIONS = [
-  {
-    href: "/sample/brutal",
-    label: "D. Brutalist Birthday",
-    note: "Rebuilt dark. Ink ground, neon as light, full-bleed colour bands, one giant type moment.",
-  },
-  {
-    href: "/sample/pin",
-    label: "F. Pinterest Board",
-    note: "An actual board page. Masonry pins, hover to save, bows, cherry and blush.",
-  },
-  {
-    href: "/sample/collage",
-    label: "E. Cutout Collage",
-    note: "Ransom-note letters, torn paper, grid paper, washi tape, colour bands.",
-  },
-  {
-    href: "/sample/card",
-    label: "A. Birthday Card",
-    note: "Pine green, cream card stock, sealed envelopes. Earliest pass, kept for contrast.",
-  },
+  { href: "/sample/board", label: "A", note: "Warm and handmade, like a scrapbook page." },
+  { href: "/sample/flyer", label: "B", note: "Big, bold and yellow, like a poster on a wall." },
+  { href: "/sample/riso", label: "C", note: "Bright printed inks on speckled paper." },
+  { href: "/sample/postcard", label: "D", note: "A postcard on a desk, typed and handwritten." },
 ];
 
 export default function SampleIndex() {
   return (
-    <main className="relative z-10 mx-auto flex min-h-screen w-full max-w-2xl flex-col justify-center gap-4 px-6 py-16">
-      <h1 className="font-display text-3xl uppercase">Pick a direction</h1>
-      {OPTIONS.map((o) => (
-        <Link
-          key={o.href}
-          href={o.href}
-          className="cursor-pointer border-[3px] border-ink bg-white p-5 transition-transform hover:-translate-y-0.5 hard-shadow"
-        >
-          <p className="font-display text-lg uppercase">{o.label}</p>
-          <p className="mt-1 text-sm text-black/60">{o.note}</p>
-        </Link>
-      ))}
+    <main className="mx-auto flex min-h-screen w-full max-w-xl flex-col justify-center gap-5 px-6 py-16 text-stock">
+      <div>
+        <h1 className="font-display text-3xl font-bold">Meera&apos;s picnic</h1>
+        <p className="mt-2 text-stock/70">
+          Four looks for the invite. Have a click through and tell us which one you like.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        {OPTIONS.map((o) => (
+          <Link
+            key={o.href}
+            href={o.href}
+            className="flex cursor-pointer items-center gap-4 rounded bg-stock/10 p-5 transition-colors hover:bg-stock/20"
+          >
+            <span className="font-display text-3xl font-bold text-marigold">{o.label}</span>
+            <span className="text-[15px] text-stock/85">{o.note}</span>
+          </Link>
+        ))}
+      </div>
     </main>
   );
 }
