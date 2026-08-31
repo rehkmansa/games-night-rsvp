@@ -49,6 +49,53 @@ function Star({ className }: { className?: string }) {
   );
 }
 
+
+function BlanketScene() {
+  return (
+    <svg className="b-tile-img" viewBox="0 0 200 130" aria-hidden="true">
+      <rect x="18" y="62" width="164" height="52" rx="4" fill="#D9634A" opacity="0.85" />
+      <path d="M18 62 h164 M18 79 h164 M18 96 h164" stroke="#FDF8F3" strokeWidth="3" opacity="0.7" />
+      <path d="M52 62 v52 M96 62 v52 M140 62 v52" stroke="#FDF8F3" strokeWidth="3" opacity="0.7" />
+      <path d="M74 62 a26 22 0 0 1 52 0 z" fill="#B98A4E" />
+      <path d="M74 62 h52" stroke="#8A6438" strokeWidth="4" />
+      <path d="M86 40 a14 14 0 0 1 28 0" fill="none" stroke="#8A6438" strokeWidth="4" />
+      <circle cx="46" cy="52" r="9" fill="#7C5580" />
+      <circle cx="158" cy="50" r="11" fill="#DFA046" />
+    </svg>
+  );
+}
+
+function FoodScene() {
+  return (
+    <svg className="b-tile-img" viewBox="0 0 200 130" aria-hidden="true">
+      <circle cx="66" cy="70" r="34" fill="#FDF8F3" stroke="#B8455F" strokeWidth="3" />
+      <path d="M66 44 a26 26 0 0 1 0 52 z" fill="#B8455F" opacity="0.75" />
+      <rect x="112" y="52" width="52" height="46" rx="5" fill="#DFA046" />
+      <path d="M112 66 h52" stroke="#FDF8F3" strokeWidth="3" />
+      <circle cx="126" cy="80" r="4" fill="#FDF8F3" />
+      <circle cx="140" cy="86" r="4" fill="#FDF8F3" />
+      <circle cx="152" cy="78" r="4" fill="#FDF8F3" />
+      <path d="M30 104 h140" stroke="#D9634A" strokeWidth="4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function NoiseScene() {
+  return (
+    <svg className="b-tile-img" viewBox="0 0 200 130" aria-hidden="true">
+      <rect x="46" y="44" width="108" height="60" rx="7" fill="#7C5580" />
+      <circle cx="76" cy="74" r="16" fill="#FDF8F3" opacity="0.9" />
+      <circle cx="76" cy="74" r="7" fill="#7C5580" />
+      <circle cx="124" cy="74" r="16" fill="#FDF8F3" opacity="0.9" />
+      <circle cx="124" cy="74" r="7" fill="#7C5580" />
+      <rect x="92" y="52" width="16" height="6" rx="3" fill="#DFA046" />
+      <path d="M164 56 a20 20 0 0 1 0 36" fill="none" stroke="#D9634A" strokeWidth="4" strokeLinecap="round" />
+      <path d="M176 46 a34 34 0 0 1 0 56" fill="none" stroke="#D9634A" strokeWidth="4" strokeLinecap="round" opacity="0.55" />
+      <path d="M36 56 a20 20 0 0 0 0 36" fill="none" stroke="#D9634A" strokeWidth="4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export default function BoardSample() {
   const [status, setStatus] = useState("coming");
   const [reveal, setReveal] = useState(false);
@@ -76,15 +123,15 @@ export default function BoardSample() {
         {/* colour tiles standing in for photos */}
         <div className="b-tiles">
           <figure className="b-tile b-tile-1">
-            <div className="b-tile-img" aria-hidden="true" />
+            <BlanketScene />
             <figcaption className={hand.className}>the grass</figcaption>
           </figure>
           <figure className="b-tile b-tile-2">
-            <div className="b-tile-img" aria-hidden="true" />
+            <FoodScene />
             <figcaption className={hand.className}>the food</figcaption>
           </figure>
           <figure className="b-tile b-tile-3">
-            <div className="b-tile-img" aria-hidden="true" />
+            <NoiseScene />
             <figcaption className={hand.className}>the noise</figcaption>
           </figure>
         </div>
@@ -227,12 +274,12 @@ export default function BoardSample() {
 
 const CSS = `
 .b-root {
-  --cream: #FFF7F0;
+  --cream: #FDF8F3;
   --card: #FFFFFF;
-  --coral: #FF6B4A;
-  --sun: #FFB020;
-  --rasp: #E8355F;
-  --plum: #A63D8F;
+  --coral: #D9634A;
+  --sun: #DFA046;
+  --rasp: #B8455F;
+  --plum: #7C5580;
   --ink: #241A17;
   --soft: #8C7A72;
 
@@ -240,9 +287,7 @@ const CSS = `
   z-index: 10;
   min-height: 100vh;
   background:
-    radial-gradient(60% 40% at 12% 4%, rgba(255,176,32,0.22) 0%, transparent 62%),
-    radial-gradient(50% 36% at 92% 22%, rgba(232,53,95,0.16) 0%, transparent 60%),
-    radial-gradient(50% 40% at 70% 92%, rgba(166,61,143,0.14) 0%, transparent 62%),
+    radial-gradient(70% 50% at 50% 0%, rgba(223,160,70,0.09) 0%, transparent 70%),
     var(--cream);
   color: var(--ink);
   overflow-x: hidden;
@@ -283,7 +328,7 @@ const CSS = `
   letter-spacing: -0.03em;
   font-weight: 800;
 }
-.b-title span { color: var(--rasp); }
+.b-title span { color: var(--coral); }
 .b-squiggle { display: block; width: min(320px, 70%); height: 18px; margin-top: 14px; }
 .b-squiggle path { fill: none; stroke: var(--sun); stroke-width: 4; stroke-linecap: round; }
 
@@ -310,11 +355,11 @@ const CSS = `
 .b-tile-2 { transform: rotate(1.4deg); margin-top: 14px; }
 .b-tile-3 { transform: rotate(-1deg); }
 .b-tile:hover { transform: rotate(0deg) translateY(-4px); }
-.b-tile-img { height: clamp(96px, 13vw, 128px); }
-.b-tile-1 .b-tile-img { background: linear-gradient(150deg, var(--sun), var(--coral)); }
-.b-tile-2 .b-tile-img { background: linear-gradient(150deg, var(--coral), var(--rasp)); }
-.b-tile-3 .b-tile-img { background: linear-gradient(150deg, var(--rasp), var(--plum)); }
-.b-tile figcaption { font-size: 22px; color: var(--soft); padding: 6px 2px 0; }
+.b-tile-img { display: block; width: 100%; height: auto; }
+.b-tile-1 .b-tile-img { background: #F3EEE2; }
+.b-tile-2 .b-tile-img { background: #F6E9E3; }
+.b-tile-3 .b-tile-img { background: #EEEAF1; }
+.b-tile figcaption { font-size: 21px; color: var(--soft); padding: 8px 2px 0; }
 
 /* facts */
 .b-facts {
@@ -328,7 +373,7 @@ const CSS = `
   background: var(--card);
   padding: 18px 16px 16px;
   box-shadow: 0 10px 22px -16px rgba(36,26,23,0.5);
-  border-top: 5px solid var(--sun);
+  border-top: 3px solid var(--sun);
 }
 .b-fact:nth-child(2) { border-top-color: var(--coral); transform: rotate(0.8deg); }
 .b-fact:nth-child(3) { border-top-color: var(--rasp); transform: rotate(-0.7deg); }
@@ -472,7 +517,7 @@ const CSS = `
 .b-note-3 { transform: rotate(1.7deg); }
 .b-note:hover { transform: rotate(0deg) translateY(-4px); }
 .b-note-name { margin: 0; font-size: 17px; font-weight: 800; line-height: 1.2; }
-.b-note-real { margin: 2px 0 0; font-size: 20px; color: var(--plum); }
+.b-note-real { margin: 2px 0 0; font-size: 20px; color: var(--soft); }
 .b-note-lines { margin: 12px 0 0; display: flex; flex-direction: column; gap: 7px; }
 .b-note-lines span { height: 7px; border-radius: 999px; background: rgba(36,26,23,0.1); }
 .b-note-lines span:nth-child(2) { width: 82%; }
@@ -486,11 +531,11 @@ const CSS = `
   text-transform: uppercase;
   padding: 4px 11px;
   border-radius: 999px;
-  background: var(--sun);
-  color: var(--ink);
+  background: #F2EADD;
+  color: #7A6218;
 }
-.b-tag-maybe { background: var(--coral); color: #FFF; }
-.b-tag-cant { background: #EFE3DC; color: var(--soft); }
+.b-tag-maybe { background: #F7E7E1; color: #9A4B36; }
+.b-tag-cant { background: #EFEAE6; color: var(--soft); }
 
 .b-foot {
   margin: clamp(34px, 5vw, 54px) 0 0;
