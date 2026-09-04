@@ -17,7 +17,15 @@ const body = Work_Sans({
   subsets: ["latin"],
 });
 
-const SITE_URL = "https://oshioke-rsvp.vercel.app";
+/*
+ * Derived, never hardcoded. The project has already been renamed twice, and a
+ * stale host here silently breaks link previews: og:image is an absolute URL,
+ * so WhatsApp and co. fetch the dead domain and show no card at all. Vercel
+ * sets VERCEL_PROJECT_PRODUCTION_URL to the current production domain.
+ */
+const SITE_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : "http://localhost:3000";
 const TITLE = "Meera's Birthday Picnic";
 const DESCRIPTION =
   "Saturday 12 September at 12 noon, by the House of Assembly in Alausa, Ikeja. It's a potluck, there'll be games, and everyone leaves Meera a memory under a secret name.";
