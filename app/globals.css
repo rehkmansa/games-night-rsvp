@@ -1,15 +1,14 @@
 @import "tailwindcss";
 
 @theme {
-  --color-pine: #10362e;
-  --color-pine-deep: #0b2721;
-  --color-stock: #fbf3e2;
-  --color-ink: #17130e;
-  --color-ink-soft: #5b5245;
-  --color-red: #c9302b;
-  --color-red-deep: #a9241f;
-  --color-marigold: #e9a317;
-  --color-teal: #1c7c7c;
+  --color-cream: #fdf8f3;
+  --color-card: #ffffff;
+  --color-coral: #d9634a;
+  --color-sun: #dfa046;
+  --color-rasp: #b8455f;
+  --color-plum: #7c5580;
+  --color-ink: #241a17;
+  --color-soft: #8c7a72;
 
   --font-display: var(--font-display);
   --font-hand: var(--font-hand);
@@ -18,49 +17,53 @@
 
 html,
 body {
-  background-color: var(--color-pine-deep);
-  color: var(--color-stock);
+  background-color: var(--color-cream);
+  color: var(--color-ink);
 }
 
 body {
   font-family: var(--font-body), system-ui, sans-serif;
-  background-image:
-    radial-gradient(ellipse at 20% 0%, rgba(233, 163, 23, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse at 85% 18%, rgba(28, 124, 124, 0.22) 0%, transparent 50%),
-    linear-gradient(180deg, var(--color-pine) 0%, var(--color-pine-deep) 100%);
+  background-image: radial-gradient(
+    70% 50% at 50% 0%,
+    rgba(223, 160, 70, 0.09) 0%,
+    transparent 70%
+  );
   background-attachment: fixed;
 }
 
-/* The card sits on the ground like a real piece of stock: an inner keyline
-   and a long soft drop, never a border. */
-.card-stock {
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.5) inset,
-    0 26px 60px -20px rgba(0, 0, 0, 0.55);
-}
-
-.card-keyline::after {
-  content: "";
-  position: absolute;
-  inset: 10px;
-  border: 1px solid rgba(23, 19, 14, 0.14);
-  border-radius: 2px;
-  pointer-events: none;
-}
-
-.dashed-rule {
-  height: 1px;
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(23, 19, 14, 0.3) 0 6px,
-    transparent 6px 12px
+/* A scrap of paper: the edges are actually torn, not rounded off. Two of them,
+   because a single shape repeated across the page reads as a texture. */
+.torn-light {
+  clip-path: polygon(
+    0 2%, 6% 0, 14% 2%, 23% 0, 33% 2%, 44% 0, 55% 2%, 66% 0, 76% 2%, 86% 0, 94% 2%, 100% 0,
+    100% 98%, 93% 100%, 84% 98%, 74% 100%, 63% 98%, 52% 100%, 41% 98%, 30% 100%, 20% 98%,
+    10% 100%, 0 98%
   );
 }
 
-/* Envelope flap: a triangle folded down over the top of each wish card. */
-.env-flap {
-  background: linear-gradient(175deg, rgba(23, 19, 14, 0.1), rgba(23, 19, 14, 0.03));
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
+.torn-dark {
+  clip-path: polygon(
+    0 3%, 8% 0, 18% 3%, 29% 0, 40% 3%, 51% 0, 62% 3%, 73% 0, 84% 3%, 93% 0, 100% 3%,
+    100% 97%, 92% 100%, 82% 97%, 71% 100%, 60% 97%, 49% 100%, 38% 97%, 27% 100%, 16% 97%,
+    7% 100%, 0 97%
+  );
+}
+
+.paper-shadow {
+  box-shadow: 0 12px 26px -18px rgba(36, 26, 23, 0.5);
+}
+
+.paper-shadow-lg {
+  box-shadow: 0 16px 34px -22px rgba(36, 26, 23, 0.6);
+}
+
+/* Masking tape. Sits above the scrap it holds down. */
+.tape {
+  position: absolute;
+  width: 92px;
+  height: 26px;
+  background: rgba(223, 160, 70, 0.55);
+  box-shadow: 0 1px 0 rgba(36, 26, 23, 0.08);
 }
 
 @keyframes bounce-in {
@@ -97,10 +100,6 @@ body {
 }
 .shake {
   animation: shake 0.4s ease-in-out;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

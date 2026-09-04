@@ -2,12 +2,11 @@ import { get, put } from "@vercel/blob";
 import type { Rsvp, RsvpStore } from "./types";
 
 /**
- * Deliberately NOT "rsvps.json" — that key still holds the games-night entries,
- * which use the old {name, nickname, factAbout} shape. Pointing the birthday
- * site at a fresh key starts the store empty and leaves the old file readable
- * if anyone ever wants it back.
+ * One key per event. "rsvps.json" holds the games-night entries and
+ * "birthday-rsvps.json" holds Oshioke's; both use older field shapes. A fresh
+ * key starts the picnic store empty and leaves the old files intact.
  */
-const BLOB_PATHNAME = "birthday-rsvps.json";
+const BLOB_PATHNAME = "picnic-rsvps.json";
 
 export async function readRsvps(): Promise<Rsvp[]> {
   if (!process.env.BLOB_READ_WRITE_TOKEN) return [];

@@ -3,16 +3,14 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Happy Birthday Oshioke. Saturday 22 August, arrive for 12 noon, Iyeru Okin at the Radisson Blu.";
+  "Meera's Birthday Picnic. Saturday 12 September, Alausa, Ikeja. Potluck, games, and a memory under a secret name.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const RIBBON = ["#c9302b", "#e9a317", "#1c7c7c", "#10362e"];
-
-const DETAILS = [
-  { label: "THE DAY", value: "Saturday 22 August" },
-  { label: "ARRIVAL", value: "12 noon" },
-  { label: "THE PLACE", value: "Iyeru Okin" },
+const FACTS = [
+  { k: "WHEN", v: "Sat 12 September" },
+  { k: "WHERE", v: "Alausa, Ikeja" },
+  { k: "BRING", v: "Something" },
 ];
 
 async function font(file: string) {
@@ -21,14 +19,14 @@ async function font(file: string) {
 
 /**
  * Shared by opengraph-image.tsx and twitter-image.tsx so both cards stay
- * identical. Satori only lays out with flexbox, so every container that holds
+ * identical. Satori only lays out with flexbox, so every container holding
  * more than one child sets display:flex explicitly.
  */
 export async function renderOgImage(): Promise<ImageResponse> {
-  const [fraunces, caveat, karla] = await Promise.all([
-    font("Fraunces-Bold.ttf"),
+  const [bricolage, caveat, work] = await Promise.all([
+    font("Bricolage-Bold.ttf"),
     font("Caveat-Bold.ttf"),
-    font("Karla-SemiBold.ttf"),
+    font("WorkSans-Medium.ttf"),
   ]);
 
   return new ImageResponse(
@@ -40,8 +38,8 @@ export async function renderOgImage(): Promise<ImageResponse> {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(160deg, #10362e 0%, #0b2721 100%)",
-          padding: 48,
+          background: "#FDF8F3",
+          padding: 54,
         }}
       >
         <div
@@ -51,79 +49,75 @@ export async function renderOgImage(): Promise<ImageResponse> {
             flexDirection: "column",
             width: "100%",
             height: "100%",
-            background: "#fbf3e2",
-            borderRadius: 6,
-            padding: "62px 64px 54px",
-            overflow: "hidden",
+            background: "#FFFFFF",
+            padding: "58px 62px",
+            boxShadow: "0 18px 40px rgba(36,26,23,0.16)",
           }}
         >
-          <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 12, display: "flex" }}>
-            {RIBBON.map((c) => (
-              <div key={c} style={{ width: "25%", height: "100%", background: c }} />
-            ))}
+          {/* masking tape, same as the page */}
+          <div
+            style={{
+              position: "absolute",
+              top: -13,
+              left: 90,
+              width: 150,
+              height: 34,
+              background: "rgba(223,160,70,0.62)",
+              transform: "rotate(-5deg)",
+            }}
+          />
+
+          <div style={{ fontFamily: "Caveat", fontSize: 40, color: "#D9634A" }}>
+            keep your afternoon free
           </div>
 
           <div
             style={{
-              fontFamily: "Karla",
-              fontSize: 21,
-              letterSpacing: 6,
-              color: "#1c7c7c",
+              fontFamily: "Bricolage",
+              fontSize: 92,
+              color: "#241A17",
+              letterSpacing: -3,
+              marginTop: 6,
             }}
           >
-            YOU ARE INVITED
+            Meera&apos;s
           </div>
-
-          <div style={{ fontFamily: "Fraunces", fontSize: 44, color: "#17130e", marginTop: 26 }}>
-            Happy Birthday,
-          </div>
-
           <div
             style={{
-              fontFamily: "Fraunces",
-              fontSize: 152,
-              lineHeight: 1,
-              letterSpacing: -5,
-              color: "#17130e",
-              marginTop: 4,
+              fontFamily: "Bricolage",
+              fontSize: 92,
+              color: "#D9634A",
+              letterSpacing: -3,
+              marginTop: -8,
             }}
           >
-            Oshioke
-          </div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 26 }}>
-            <div style={{ fontFamily: "Karla", fontSize: 38, color: "#5b5245" }}>the birthday</div>
-            <div
-              style={{
-                fontFamily: "Karla",
-                fontSize: 38,
-                color: "#5b5245",
-                textDecoration: "line-through",
-                textDecorationColor: "#c9302b",
-              }}
-            >
-              boy
-            </div>
-            <div style={{ fontFamily: "Caveat", fontSize: 72, color: "#c9302b" }}>man</div>
+            birthday picnic
           </div>
 
           <div style={{ flex: 1 }} />
 
-          <div style={{ display: "flex", gap: 62 }}>
-            {DETAILS.map((d) => (
-              <div key={d.label} style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", gap: 58, marginTop: 34 }}>
+            {FACTS.map((f) => (
+              <div key={f.k} style={{ display: "flex", flexDirection: "column" }}>
                 <div
                   style={{
-                    fontFamily: "Karla",
+                    fontFamily: "WorkSans",
                     fontSize: 17,
-                    letterSpacing: 3.4,
-                    color: "#1c7c7c",
+                    letterSpacing: 4,
+                    color: "#8C7A72",
                   }}
                 >
-                  {d.label}
+                  {f.k}
                 </div>
-                <div style={{ fontFamily: "Karla", fontSize: 32, color: "#17130e", marginTop: 6 }}>
-                  {d.value}
+                <div
+                  style={{
+                    fontFamily: "Bricolage",
+                    fontSize: 34,
+                    color: "#241A17",
+                    marginTop: 6,
+                  }}
+                >
+                  {f.v}
                 </div>
               </div>
             ))}
@@ -131,13 +125,14 @@ export async function renderOgImage(): Promise<ImageResponse> {
 
           <div
             style={{
-              fontFamily: "Karla",
+              fontFamily: "WorkSans",
               fontSize: 22,
-              color: "#5b5245",
-              marginTop: 22,
+              color: "#8C7A72",
+              marginTop: 24,
             }}
           >
-            at the Radisson Blu · leave a wish under a secret name
+            By the House of Assembly, beside the Lagos State Secretariat · leave a memory under a
+            secret name
           </div>
         </div>
       </div>
@@ -145,9 +140,9 @@ export async function renderOgImage(): Promise<ImageResponse> {
     {
       ...size,
       fonts: [
-        { name: "Fraunces", data: fraunces, style: "normal", weight: 700 },
+        { name: "Bricolage", data: bricolage, style: "normal", weight: 700 },
         { name: "Caveat", data: caveat, style: "normal", weight: 700 },
-        { name: "Karla", data: karla, style: "normal", weight: 600 },
+        { name: "WorkSans", data: work, style: "normal", weight: 500 },
       ],
     },
   );

@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Caveat, Fraunces, Karla } from "next/font/google";
+import { Bricolage_Grotesque, Caveat, Work_Sans } from "next/font/google";
 import "./globals.css";
 
-const display = Fraunces({
+const display = Bricolage_Grotesque({
   variable: "--font-display",
   subsets: ["latin"],
-  axes: ["SOFT", "WONK", "opsz"],
 });
 
 const hand = Caveat({
@@ -13,26 +12,26 @@ const hand = Caveat({
   subsets: ["latin"],
 });
 
-const body = Karla({
+const body = Work_Sans({
   variable: "--font-body",
   subsets: ["latin"],
 });
 
 const SITE_URL = "https://oshioke-rsvp.vercel.app";
-const TITLE = "Oshioke's Birthday · Sat 22 August";
+const TITLE = "Meera's Birthday Picnic";
 const DESCRIPTION =
-  "Arrive for 12 noon at Iyeru Okin, Radisson Blu. RSVP and leave him a birthday wish under a secret name. He has to guess who wrote what.";
+  "Saturday 12 September, by the House of Assembly in Alausa, Ikeja. It's a potluck, there'll be games, and everyone leaves Meera a memory under a secret name.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: TITLE,
   description: DESCRIPTION,
-  applicationName: "Oshioke's Birthday",
-  keywords: ["Oshioke", "birthday", "RSVP", "Iyeru Okin", "Radisson Blu", "22 August"],
+  applicationName: "Meera's Birthday Picnic",
+  keywords: ["Meera", "birthday", "picnic", "RSVP", "Alausa", "Ikeja", "Lagos"],
   openGraph: {
     type: "website",
     url: SITE_URL,
-    siteName: "Oshioke's Birthday",
+    siteName: "Meera's Birthday Picnic",
     title: TITLE,
     description: DESCRIPTION,
     locale: "en_NG",
@@ -45,7 +44,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#10362e",
+  themeColor: "#fdf8f3",
 };
 
 export default function RootLayout({

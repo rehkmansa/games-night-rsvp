@@ -1,23 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect x="2" y="2" width="60" height="60" rx="12" fill="#fbf3e2" stroke="#10362e" stroke-width="4"/>
-  <g clip-path="url(#top)">
-    <rect x="4" y="4" width="14" height="9" fill="#c9302b"/>
-    <rect x="18" y="4" width="14" height="9" fill="#e9a317"/>
-    <rect x="32" y="4" width="14" height="9" fill="#1c7c7c"/>
-    <rect x="46" y="4" width="14" height="9" fill="#10362e"/>
-  </g>
-  <defs>
-    <clipPath id="top">
-      <rect x="4" y="4" width="56" height="9" rx="4"/>
-    </clipPath>
-  </defs>
-  <text
-    x="32"
-    y="50"
-    font-family="Georgia, 'Times New Roman', serif"
-    font-size="40"
-    font-weight="700"
-    text-anchor="middle"
-    fill="#17130e"
-  >O</text>
+  <rect width="64" height="64" rx="12" fill="#FDF8F3"/>
+  <!-- a taped scrap of paper, the site's whole idea at 16px -->
+  <rect x="10" y="12" width="44" height="40" rx="2" fill="#FFFFFF" stroke="#241A17" stroke-width="2.5"/>
+  <rect x="20" y="7" width="24" height="9" rx="1.5" fill="#DFA046" transform="rotate(-6 32 11)"/>
+  <path d="M18 30 h28" stroke="#D9634A" stroke-width="5" stroke-linecap="round"/>
+  <path d="M18 39 h20" stroke="#241A17" stroke-width="3.5" stroke-linecap="round" opacity="0.35"/>
+  <path d="M18 46 h13" stroke="#241A17" stroke-width="3.5" stroke-linecap="round" opacity="0.2"/>
 </svg>
