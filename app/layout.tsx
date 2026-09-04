@@ -20,7 +20,7 @@ const body = Work_Sans({
 const SITE_URL = "https://oshioke-rsvp.vercel.app";
 const TITLE = "Meera's Birthday Picnic";
 const DESCRIPTION =
-  "Saturday 12 September, by the House of Assembly in Alausa, Ikeja. It's a potluck, there'll be games, and everyone leaves Meera a memory under a secret name.";
+  "Saturday 12 September at 12 noon, by the House of Assembly in Alausa, Ikeja. It's a potluck, there'll be games, and everyone leaves Meera a memory under a secret name.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

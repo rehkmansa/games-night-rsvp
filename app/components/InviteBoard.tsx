@@ -5,7 +5,7 @@ const FACTS = [
   {
     k: "when",
     v: "Sat 12 September",
-    p: "Next week Saturday. Keep the afternoon free.",
+    p: "Next week Saturday. We start at 12 noon.",
     rule: "border-t-sun",
   },
   {
@@ -45,7 +45,7 @@ export function InviteBoard() {
           aria-hidden="true"
         />
         <p className="font-hand text-[clamp(1.375rem,3vw,1.75rem)] -rotate-1 text-coral">
-          keep your afternoon free
+          we start at 12 noon
         </p>
         <h1 className="mt-1.5 flex flex-col font-display text-[clamp(2.5rem,8.6vw,5.25rem)] font-extrabold leading-[0.92] tracking-[-0.03em]">
           Meera&apos;s
