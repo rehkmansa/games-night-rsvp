@@ -98,8 +98,9 @@ export function InviteBoard() {
           Everyone leaves one memory
         </h2>
         <p className="mt-2.5 max-w-[58ch] text-[15.5px] leading-relaxed text-cream/85">
-          You leave a memory of the two of you, signed with a secret name. Hannah sees the memory,
-          never who sent it.
+          Leave Hannah a memory from the two of you. Keep it personal, and sign it with a secret
+          name. She&apos;ll see the name, but not who it belongs to, until she opens them all and
+          starts guessing.
         </p>
         <p className="mt-2 font-hand text-2xl text-sun">
           she opens them all at once and has to guess every single one

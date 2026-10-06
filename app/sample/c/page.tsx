@@ -74,9 +74,9 @@ export default function CardSample() {
         <div className="a-game">
           <p className={`a-game-head ${display.className}`}>Leave a fond memory</p>
           <p>
-            Your reply carries a memory of the two of you, signed with a secret name. Hannah sees
-            the memory, never who sent it, until she opens them all at once and has to guess who
-            wrote what.
+            Leave Hannah a memory from the two of you. Keep it personal, and sign it with a secret
+            name. She&apos;ll see the name, but not who it belongs to, until she opens them all and
+            starts guessing.
           </p>
         </div>
 

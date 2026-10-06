@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Faleti Hannah's Birthday Hangout. Saturday 24 October, at her estate. Reply by 17 October.";
+  "Birthday Hangout. Saturday 24 October, at her estate. Reply by 17 October.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

@@ -48,7 +48,7 @@ export default function PassSample() {
 
           <h1 className={`t-title ${display.className}`}>
             Birthday Hangout
-            <span>Faleti Hannah</span>
+            <span>for Hannah</span>
           </h1>
 
           <dl className="t-rows">
@@ -83,9 +83,9 @@ export default function PassSample() {
       <section className="t-secret">
         <h2 className={`t-h2 ${display.className}`}>Leave a fond memory</h2>
         <p>
-          Your reply carries a memory of the two of you, signed with a secret name. Hannah sees the
-          memory, never who sent it, until she opens them all at once and has to guess who wrote
-          what.
+          Leave Hannah a memory from the two of you. Keep it personal, and sign it with a secret
+          name. She&apos;ll see the name, but not who it belongs to, until she opens them all and
+          starts guessing.
         </p>
       </section>
 

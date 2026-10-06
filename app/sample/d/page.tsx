@@ -2,7 +2,7 @@
 
 /* THROWAWAY PREVIEW — direction D "Envelope". Delete once a direction is picked. */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Playfair_Display, Jost } from "next/font/google";
 
 const display = Playfair_Display({ subsets: ["latin"], weight: ["500", "700"] });
@@ -31,6 +31,18 @@ const DETAILS = [
 
 export default function EnvelopeSample() {
   const [open, setOpen] = useState(false);
+
+  // Opens itself shortly after load. Nobody should have to work out that the
+  // envelope is a button before they can read the invite; the toggle below is
+  // only there to replay it.
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setOpen(true);
+      return;
+    }
+    const t = setTimeout(() => setOpen(true), 650);
+    return () => clearTimeout(t);
+  }, []);
   const [status, setStatus] = useState("coming");
   const [reveal, setReveal] = useState(false);
 
@@ -49,7 +61,7 @@ export default function EnvelopeSample() {
               <p className="v-card-k">You&apos;re invited to</p>
               <h1 className={`v-card-title ${display.className}`}>
                 Birthday Hangout
-                <span>Faleti Hannah</span>
+                <span>for Hannah</span>
               </h1>
               <p className={`v-card-date ${display.className}`}>Saturday, 24 October</p>
               <dl className="v-card-rows">
@@ -72,16 +84,16 @@ export default function EnvelopeSample() {
         </div>
 
         <button type="button" className="v-open" onClick={() => setOpen((o) => !o)}>
-          {open ? "Close it" : "Open it"}
+          {open ? "Close it" : "Open it again"}
         </button>
       </section>
 
       <section className="v-secret">
         <h2 className={`v-h2 ${display.className}`}>Leave a fond memory</h2>
         <p>
-          Your reply carries a memory of the two of you, signed with a secret name. Hannah sees the
-          memory, never who sent it, until she opens them all at once and has to guess who wrote
-          what.
+          Leave Hannah a memory from the two of you. Keep it personal, and sign it with a secret
+          name. She&apos;ll see the name, but not who it belongs to, until she opens them all and
+          starts guessing.
         </p>
       </section>
 

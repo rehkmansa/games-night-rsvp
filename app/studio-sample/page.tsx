@@ -122,7 +122,7 @@ export default function KineticSample() {
         <p className="k-eyebrow">
           <span>Birthday hangout</span>
           <i />
-          <span>Faleti Hannah</span>
+          <span>24 October</span>
         </p>
 
         <h1 className={`k-title ${display.className}`} aria-label="Hannah">
@@ -169,9 +169,9 @@ export default function KineticSample() {
           <span>memory.</span>
         </h2>
         <p>
-          Your reply carries a memory of the two of you, signed with a secret name. Hannah sees the
-          memory, never who sent it, until she opens them all at once and has to guess who wrote
-          what.
+          Leave Hannah a memory from the two of you. Keep it personal, and sign it with a secret
+          name. She&apos;ll see the name, but not who it belongs to, until she opens them all and
+          starts guessing.
         </p>
       </section>
 

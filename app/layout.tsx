@@ -26,7 +26,7 @@ const body = Work_Sans({
 const SITE_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
   : "http://localhost:3000";
-const TITLE = "Faleti Hannah's Birthday Hangout";
+const TITLE = "Birthday Hangout";
 const DESCRIPTION =
   "Saturday 24 October at Hannah's estate. Food, drinks and games are sorted, just reply by the 17th so she can plan, and leave her a memory under a secret name.";
 
@@ -34,12 +34,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: TITLE,
   description: DESCRIPTION,
-  applicationName: "Faleti Hannah's Birthday Hangout",
-  keywords: ["Faleti Hannah", "Hannah", "birthday", "hangout", "RSVP", "Lagos"],
+  applicationName: "Birthday Hangout",
+  keywords: ["birthday", "hangout", "RSVP", "Lagos"],
   openGraph: {
     type: "website",
     url: SITE_URL,
-    siteName: "Faleti Hannah's Birthday Hangout",
+    siteName: "Birthday Hangout",
     title: TITLE,
     description: DESCRIPTION,
     locale: "en_NG",
