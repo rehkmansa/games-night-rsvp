@@ -47,8 +47,8 @@ export default function PassSample() {
           </div>
 
           <h1 className={`t-title ${display.className}`}>
-            Faleti Hannah&apos;s
-            <span>Birthday Hangout</span>
+            Birthday Hangout
+            <span>Faleti Hannah</span>
           </h1>
 
           <dl className="t-rows">
@@ -81,7 +81,7 @@ export default function PassSample() {
       </div>
 
       <section className="t-secret">
-        <h2 className={`t-h2 ${display.className}`}>One memory, no name on it</h2>
+        <h2 className={`t-h2 ${display.className}`}>Leave a fond memory</h2>
         <p>
           Your reply carries a memory of the two of you, signed with a secret name. Hannah sees the
           memory, never who sent it, until she opens them all at once and has to guess who wrote
@@ -90,7 +90,7 @@ export default function PassSample() {
       </section>
 
       <form className="t-form" onSubmit={(e) => e.preventDefault()}>
-        <h2 className={`t-h2 ${display.className}`}>Claim your pass</h2>
+        <h2 className={`t-h2 ${display.className}`}>RSVP</h2>
 
         <fieldset className="t-status">
           <legend>Are you coming</legend>
@@ -154,7 +154,7 @@ export default function PassSample() {
         </label>
 
         <button type="submit" className={`t-send ${display.className}`}>
-          Claim it
+          Send it
         </button>
       </form>
 
@@ -293,7 +293,8 @@ const CSS = `
 
 /* form */
 .t-form {
-  width: min(100%, 620px);
+  /* same width as the pass above it, so the page reads as one column */
+  width: min(100%, 760px);
   align-self: center;
   background: rgba(251,249,244,0.05);
   border: 1px solid rgba(251,249,244,0.16);

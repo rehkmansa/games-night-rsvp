@@ -3,17 +3,17 @@
 import Link from "next/link";
 
 const OPTIONS = [
-  { href: "/sample/a", label: "A", note: "Dark, kinetic. Scroll drags the details past sideways." },
   { href: "/sample/b", label: "B", note: "An admit-one pass with a tear-off stub." },
-  { href: "/sample/c", label: "C", note: "Split screen. Fixed type wall on the left, details on the right." },
-  { href: "/sample/d", label: "D", note: "A card that tilts under your cursor and flips over." },
+  { href: "/sample/c", label: "C", note: "Cream card on deep green. Warm and classic." },
+  { href: "/sample/d", label: "D", note: "A landscape envelope that opens and slides the card out." },
+  { href: "/studio-sample", label: "Studio", note: "Dark and kinetic, on its own page." },
 ];
 
 export default function SampleIndex() {
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-xl flex-col justify-center gap-5 px-6 py-16">
       <div>
-        <h1 className="font-display text-3xl font-extrabold">Hannah&apos;s invite</h1>
+        <h1 className="font-display text-3xl font-extrabold">Birthday Hangout</h1>
         <p className="mt-2 text-soft">
           Four looks. Have a click through and tell us which one you like.
         </p>

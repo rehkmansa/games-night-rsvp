@@ -1,8 +1,8 @@
 "use client";
 
-/* THROWAWAY PREVIEW — direction D "Tilt". Delete once a direction is picked. */
+/* THROWAWAY PREVIEW — direction D "Envelope". Delete once a direction is picked. */
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Playfair_Display, Jost } from "next/font/google";
 
 const display = Playfair_Display({ subsets: ["latin"], weight: ["500", "700"] });
@@ -22,33 +22,17 @@ const STATUS_LABEL: Record<string, string> = {
   cant: "Can't",
 };
 
-export default function TiltSample() {
-  const [flipped, setFlipped] = useState(false);
+const DETAILS = [
+  { k: "Where", v: "Within her estate", n: "Exact address closer to the day" },
+  { k: "Food", v: "Handled", n: "Food and drinks are on her" },
+  { k: "Plan", v: "Games and gist", n: "Pictures too" },
+  { k: "Reply by", v: "Sat 17 October", n: "Especially if you can't come" },
+];
+
+export default function EnvelopeSample() {
+  const [open, setOpen] = useState(false);
   const [status, setStatus] = useState("coming");
   const [reveal, setReveal] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  // Pointer tilt. Writes CSS vars straight to the node so the card tracks the
-  // cursor without a React render per mousemove.
-  const onMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    const el = cardRef.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    el.style.setProperty("--rx", `${(-py * 13).toFixed(2)}deg`);
-    el.style.setProperty("--ry", `${(px * 16).toFixed(2)}deg`);
-    el.style.setProperty("--gx", `${((px + 0.5) * 100).toFixed(1)}%`);
-    el.style.setProperty("--gy", `${((py + 0.5) * 100).toFixed(1)}%`);
-  };
-
-  const reset = () => {
-    const el = cardRef.current;
-    if (!el) return;
-    el.style.setProperty("--rx", "0deg");
-    el.style.setProperty("--ry", "0deg");
-  };
 
   return (
     <div className={`v-root ${body.className}`}>
@@ -57,70 +41,54 @@ export default function TiltSample() {
       <section className="v-stage">
         <p className="v-above">An invitation</p>
 
-        <div
-          ref={cardRef}
-          className={`v-card${flipped ? " is-flipped" : ""}`}
-          onPointerMove={onMove}
-          onPointerLeave={reset}
-        >
-          <div className="v-inner">
-            <div className="v-face v-front">
-              <span className="v-sheen" aria-hidden="true" />
-              <p className="v-small">You&apos;re invited to</p>
-              <h1 className={`v-name ${display.className}`}>
-                Faleti
-                <span>Hannah&apos;s</span>
-                <em>birthday hangout</em>
-              </h1>
-              <div className="v-rule" />
-              <p className={`v-date ${display.className}`}>Saturday, 24 October</p>
-              <button type="button" className="v-flip" onClick={() => setFlipped(true)}>
-                Turn it over
-              </button>
-            </div>
+        {/* landscape envelope: flap lifts, card slides out */}
+        <div className={`v-env${open ? " is-open" : ""}`}>
+          <div className="v-env-body" aria-hidden="true" />
 
-            <div className="v-face v-back">
-              <span className="v-sheen" aria-hidden="true" />
-              <dl className="v-details">
-                <div>
-                  <dt>Where</dt>
-                  <dd>Within her estate. Exact address closer to the day.</dd>
-                </div>
-                <div>
-                  <dt>Food</dt>
-                  <dd>Handled. Food and drinks are on her, bring nothing.</dd>
-                </div>
-                <div>
-                  <dt>Plan</dt>
-                  <dd>Games, gist and pictures. Someone will be filming.</dd>
-                </div>
-                <div className="v-deadline">
-                  <dt>Reply by</dt>
-                  <dd>Saturday 17 October, especially if you can&apos;t make it.</dd>
-                </div>
+          <div className="v-card">
+              <p className="v-card-k">You&apos;re invited to</p>
+              <h1 className={`v-card-title ${display.className}`}>
+                Birthday Hangout
+                <span>Faleti Hannah</span>
+              </h1>
+              <p className={`v-card-date ${display.className}`}>Saturday, 24 October</p>
+              <dl className="v-card-rows">
+                {DETAILS.map((d) => (
+                  <div key={d.k}>
+                    <dt>{d.k}</dt>
+                    <dd>
+                      {d.v}
+                      <em>{d.n}</em>
+                    </dd>
+                  </div>
+                ))}
               </dl>
-              <button type="button" className="v-flip" onClick={() => setFlipped(false)}>
-                Turn back
-              </button>
-            </div>
           </div>
+
+          <div className="v-flap" aria-hidden="true">
+            <span className="v-wax" />
+          </div>
+          <div className="v-pocket" aria-hidden="true" />
         </div>
 
-        <p className="v-below">
-          {flipped ? "The details." : "Move your cursor across it. Then turn it over."}
-        </p>
+        <button type="button" className="v-open" onClick={() => setOpen((o) => !o)}>
+          {open ? "Close it" : "Open it"}
+        </button>
       </section>
 
       <section className="v-secret">
-        <h2 className={`v-h2 ${display.className}`}>Leave her one memory</h2>
+        <h2 className={`v-h2 ${display.className}`}>Leave a fond memory</h2>
         <p>
-          Signed with a secret name. Hannah reads the memory, never who sent it, until she opens
-          them all at once and has to guess who wrote what.
+          Your reply carries a memory of the two of you, signed with a secret name. Hannah sees the
+          memory, never who sent it, until she opens them all at once and has to guess who wrote
+          what.
         </p>
       </section>
 
       <section className="v-form-wrap">
         <form onSubmit={(e) => e.preventDefault()}>
+          <h2 className={`v-h2 ${display.className}`}>RSVP</h2>
+
           <fieldset>
             <legend>Are you coming</legend>
             <div className="v-row">
@@ -190,8 +158,8 @@ export default function TiltSample() {
       <section className="v-wall">
         <h2 className={`v-h2 ${display.className}`}>{GUESTS.length} replies, all sealed</h2>
         <ul className="v-stack">
-          {GUESTS.map((g, i) => (
-            <li key={g.secret} style={{ "--i": i } as React.CSSProperties}>
+          {GUESTS.map((g) => (
+            <li key={g.secret}>
               <span className={`v-stack-name ${display.className}`}>{g.secret}</span>
               <span className="v-stack-real">
                 {g.revealed ? `aka ${g.real}` : "still a mystery"}
@@ -222,113 +190,134 @@ const CSS = `
   padding-bottom: 90px;
 }
 
-/* stage */
 .v-stage {
   min-height: 100svh;
+  padding-top: clamp(60px, 10vw, 120px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(16px, 3vw, 28px);
-  padding: clamp(30px, 6vw, 70px) 20px;
-  perspective: 1400px;
+  gap: clamp(16px, 3vw, 26px);
+  padding: clamp(28px, 5vw, 60px) 20px;
+  perspective: 1600px;
 }
-.v-above, .v-below {
-  margin: 0;
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--dim);
-}
+.v-above { margin: 0; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--dim); }
 
-.v-card {
-  --rx: 0deg;
-  --ry: 0deg;
-  --gx: 50%;
-  --gy: 50%;
-  width: min(100%, 460px);
-  aspect-ratio: 0.72;
-  transform: rotateX(var(--rx)) rotateY(var(--ry));
-  transform-style: preserve-3d;
-  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-.v-inner {
+/* landscape envelope */
+.v-env {
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: min(100%, 720px);
+  aspect-ratio: 1.62;
   transform-style: preserve-3d;
-  transition: transform 760ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.v-card.is-flipped .v-inner { transform: rotateY(180deg); }
-
-.v-face {
+.v-env-body {
   position: absolute;
   inset: 0;
+  background: var(--navy);
+  box-shadow: 0 30px 60px -30px rgba(20,26,43,0.65);
+}
+
+/* the card rides up out of the pocket when the flap lifts */
+/* The card is a sibling of the envelope wall, not a child of it: inside an
+   overflow:hidden body it got clipped, and the pocket ate the last row. Out
+   here it can ride clear of the top edge the way a real card would. */
+.v-card {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: 7%;
+  z-index: 1;
+  background: #FFFDFA;
+  border: 1px solid rgba(20,26,43,0.12);
+  padding: clamp(16px, 2.6vw, 26px) clamp(18px, 3vw, 32px);
+  transform: translateY(8%);
+  opacity: 0;
+  transition: transform 780ms cubic-bezier(0.22, 1, 0.36, 1) 180ms, opacity 360ms ease 180ms;
+  box-shadow: 0 -14px 34px -20px rgba(20,26,43,0.55);
+}
+.v-env.is-open .v-card { transform: translateY(-64%); opacity: 1; }
+
+.v-card-k { margin: 0; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
+.v-card-title { margin: 6px 0 0; display: flex; flex-direction: column; font-weight: 500; line-height: 1.04; }
+.v-card-title { font-size: clamp(1.5rem, 3.4vw, 2.3rem); }
+.v-card-title span { font-size: clamp(0.95rem, 1.9vw, 1.2rem); font-style: italic; color: var(--gold); margin-top: 4px; }
+.v-card-date { margin: 10px 0 0; font-size: clamp(0.95rem, 2vw, 1.15rem); }
+
+.v-card-rows {
+  margin: clamp(10px, 1.6vw, 14px) 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px 20px;
+  border-top: 1px solid rgba(20,26,43,0.14);
+  padding-top: clamp(12px, 2vw, 16px);
+}
+.v-card-rows dt { font-size: 9.5px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); }
+.v-card-rows dd { margin: 3px 0 0; font-size: 14px; line-height: 1.3; }
+.v-card-rows em { display: block; font-style: normal; font-size: 11.5px; color: var(--dim); margin-top: 2px; }
+
+/* flap folds up and back */
+.v-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56%;
+  background: linear-gradient(170deg, #1B2238, #141A2B);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  transition: transform 780ms cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 3;
   backface-visibility: hidden;
-  display: flex;
-  flex-direction: column;
-  padding: clamp(26px, 5vw, 40px);
-  box-shadow: 0 30px 60px -28px rgba(20,26,43,0.6);
-  overflow: hidden;
 }
-.v-front { background: #FFFDFA; border: 1px solid rgba(20,26,43,0.14); }
-.v-back { background: var(--navy); color: var(--paper); transform: rotateY(180deg); }
+.v-env.is-open .v-flap { transform: rotateX(-172deg); z-index: 0; }
+.v-env.is-open .v-env-body { box-shadow: 0 24px 46px -28px rgba(20,26,43,0.5); }
 
-/* specular highlight follows the pointer */
-.v-sheen {
+.v-wax {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    30% 30% at var(--gx) var(--gy),
-    rgba(255,255,255,0.5) 0%,
-    transparent 70%
-  );
+  left: 50%;
+  top: 76%;
+  width: 46px;
+  height: 46px;
+  margin-left: -23px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 36% 32%, #C9974F, var(--gold));
+  box-shadow: 0 3px 10px rgba(0,0,0,0.35);
 }
-.v-back .v-sheen { background: radial-gradient(30% 30% at var(--gx) var(--gy), rgba(176,134,71,0.3) 0%, transparent 70%); }
 
-.v-small { margin: 0; font-size: 10.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
-.v-name { margin: auto 0 0; display: flex; flex-direction: column; line-height: 1.02; font-weight: 500; }
-.v-name, .v-name span { font-size: clamp(2.1rem, 6vw, 3rem); }
-.v-name em { font-style: italic; font-size: clamp(1.3rem, 3.6vw, 1.75rem); color: var(--gold); margin-top: 8px; }
-.v-rule { height: 1px; background: rgba(20,26,43,0.18); margin: clamp(16px, 3vw, 24px) 0; }
-.v-date { margin: 0; font-size: clamp(1.05rem, 2.6vw, 1.35rem); }
+/* front pocket of the envelope, sits over the card's lower edge */
+.v-pocket {
+  position: absolute;
+  inset: auto 0 0;
+  height: 44%;
+  background: linear-gradient(0deg, #171E31, #1B2238);
+  z-index: 2;
+  clip-path: polygon(0 36%, 50% 0, 100% 36%, 100% 100%, 0 100%);
+}
 
-.v-flip {
+.v-open {
   cursor: pointer;
-  align-self: flex-start;
-  margin-top: 18px;
   font: inherit;
   font-size: 12px;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  padding: 11px 22px;
-  border: 1px solid currentColor;
+  padding: 13px 30px;
+  border: 1px solid var(--navy);
   background: transparent;
-  color: inherit;
+  color: var(--navy);
   border-radius: 999px;
   transition: background 200ms ease, color 200ms ease;
 }
-.v-front .v-flip:hover { background: var(--navy); color: var(--paper); }
-.v-back .v-flip:hover { background: var(--paper); color: var(--navy); }
-
-.v-details { margin: auto 0 0; display: flex; flex-direction: column; gap: 16px; }
-.v-details dt { font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); }
-.v-details dd { margin: 5px 0 0; font-size: 14.5px; line-height: 1.55; color: rgba(244,241,236,0.84); }
-.v-deadline dd { color: #FFFFFF; }
+.v-open:hover { background: var(--navy); color: var(--paper); }
 
 /* sections */
-.v-secret, .v-form-wrap, .v-wall {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-.v-secret { padding-top: clamp(30px, 5vw, 60px); }
-.v-h2 { margin: 0 0 10px; font-size: clamp(1.6rem, 3.6vw, 2.4rem); font-weight: 500; }
-.v-secret p { margin: 0; font-size: 16px; line-height: 1.75; color: var(--dim); max-width: 54ch; }
+.v-secret, .v-form-wrap, .v-wall { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+.v-secret { padding-top: clamp(26px, 4vw, 50px); }
+.v-h2 { margin: 0 0 10px; font-size: clamp(1.6rem, 3.6vw, 2.3rem); font-weight: 500; }
+.v-secret p { margin: 0; font-size: 16px; line-height: 1.75; color: var(--dim); max-width: 58ch; }
 
 .v-form-wrap { padding-top: clamp(30px, 5vw, 58px); }
-.v-form-wrap form { display: flex; flex-direction: column; gap: 22px; max-width: 560px; }
+.v-form-wrap form { display: flex; flex-direction: column; gap: 22px; }
 .v-form-wrap fieldset { border: 0; margin: 0; padding: 0; }
 .v-form-wrap legend, .v-field > span {
   font-size: 10.5px;
@@ -392,7 +381,6 @@ const CSS = `
 }
 .v-send:hover { background: var(--gold); transform: translateY(-2px); }
 
-/* wall */
 .v-wall { padding-top: clamp(34px, 5vw, 62px); }
 .v-stack { list-style: none; margin: 18px 0 0; padding: 0; }
 .v-stack li {
@@ -409,8 +397,8 @@ const CSS = `
 .v-stack li:hover {
   transform: translateX(6px);
   box-shadow: 0 14px 28px -18px rgba(20,26,43,0.55);
-  z-index: 2;
   position: relative;
+  z-index: 2;
 }
 .v-stack-name { font-size: 1.1rem; }
 .v-stack-real { flex: 1; font-size: 13px; color: var(--dim); }
@@ -426,6 +414,7 @@ const CSS = `
 .v-tag-coming { background: rgba(176,134,71,0.18); color: #7A5A28; }
 
 @media (prefers-reduced-motion: reduce) {
-  .v-root * { transition: none !important; animation: none !important; }
+  .v-root *, .v-flap, .v-card { transition: none !important; animation: none !important; }
+  .v-card { transform: translateY(-64%); opacity: 1; }
 }
 `;

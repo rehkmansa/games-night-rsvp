@@ -1,12 +1,13 @@
 "use client";
 
-/* THROWAWAY PREVIEW — direction C "Split". Delete once a direction is picked. */
+/* THROWAWAY PREVIEW — direction C "Birthday Card". Delete once a direction is picked. */
 
 import { useState } from "react";
-import { Anton, Inter } from "next/font/google";
+import { Fraunces, Caveat, Karla } from "next/font/google";
 
-const display = Anton({ subsets: ["latin"], weight: "400" });
-const body = Inter({ subsets: ["latin"] });
+const display = Fraunces({ subsets: ["latin"], axes: ["SOFT", "WONK", "opsz"] });
+const hand = Caveat({ subsets: ["latin"] });
+const body = Karla({ subsets: ["latin"] });
 
 const GUESTS = [
   { secret: "Aux Gremlin", status: "coming", revealed: true, real: "Rehk" },
@@ -17,334 +18,458 @@ const GUESTS = [
 ];
 
 const STATUS_LABEL: Record<string, string> = {
-  coming: "In",
+  coming: "Coming",
   maybe: "Maybe",
-  cant: "Out",
+  cant: "Can't make it",
 };
 
-const FACTS = [
-  { n: "01", k: "Date", v: "Saturday 24 October", d: "Clear the whole afternoon." },
-  { n: "02", k: "Place", v: "Within her estate", d: "She sends the exact address closer to the day." },
-  { n: "03", k: "Food", v: "Handled", d: "Food and drinks are on her. Bring nothing." },
-  { n: "04", k: "Plan", v: "Games, gist, pictures", d: "There's someone shooting photos and video." },
-  { n: "05", k: "Deadline", v: "Saturday 17 October", d: "Tell her by then, especially if you can't come." },
-];
-
-export default function SplitSample() {
+export default function CardSample() {
   const [status, setStatus] = useState("coming");
   const [reveal, setReveal] = useState(false);
 
   return (
-    <div className={`s-root ${body.className}`}>
+    <div className={`a-root ${body.className}`}>
       <style>{CSS}</style>
 
-      <aside className="s-left">
-        <div className="s-left-top">
-          <span className="s-mark" />
-          <span className="s-kicker">Faleti Hannah</span>
+      <div className="a-card">
+        <div className="a-ribbon" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+          <span />
         </div>
 
-        <h1 className={`s-name ${display.className}`}>
-          <span>BIRTH</span>
-          <span>DAY</span>
-          <span className="s-name-accent">HANG</span>
-          <span className="s-name-accent">OUT</span>
+        <p className="a-eyebrow">Birthday hangout</p>
+
+        <h1 className={`a-title ${display.className}`}>
+          You&apos;re invited to
+          <span className="a-name">Hannah&apos;s</span>
+          <span className="a-name a-name-2">hangout</span>
         </h1>
 
-        <div className="s-left-foot">
-          <p className={`s-bigdate ${display.className}`}>24 / 10</p>
-          <p className="s-left-note">Reply by 17 Oct</p>
-        </div>
-      </aside>
+        <p className={`a-gag ${hand.className}`}>food and drinks are on her, just bring yourself</p>
 
-      <main className="s-right">
-        <div className="s-marquee" aria-hidden="true">
-          <div className={`s-marquee-track ${display.className}`}>
-            {Array.from({ length: 6 }).map((_, i) => (
-              <span key={i}>RSVP BY 17 OCT — RSVP BY 17 OCT — </span>
-            ))}
+        <div className="a-rule" />
+
+        <dl className="a-details">
+          <div>
+            <dt>The day</dt>
+            <dd>Saturday 24 October</dd>
           </div>
+          <div>
+            <dt>Reply by</dt>
+            <dd>Sat 17 October</dd>
+          </div>
+          <div>
+            <dt>The place</dt>
+            <dd>
+              Her estate
+              <em>address closer to the day</em>
+            </dd>
+          </div>
+        </dl>
+
+        <div className="a-rule" />
+
+        <div className="a-game">
+          <p className={`a-game-head ${display.className}`}>Leave a fond memory</p>
+          <p>
+            Your reply carries a memory of the two of you, signed with a secret name. Hannah sees
+            the memory, never who sent it, until she opens them all at once and has to guess who
+            wrote what.
+          </p>
         </div>
 
-        <section className="s-facts">
-          {FACTS.map((f) => (
-            <article key={f.n} className="s-fact">
-              <span className="s-fact-n">{f.n}</span>
-              <div>
-                <span className="s-fact-k">{f.k}</span>
-                <h2 className={`s-fact-v ${display.className}`}>{f.v}</h2>
-                <p>{f.d}</p>
+        <form className="a-form" onSubmit={(e) => e.preventDefault()}>
+          <div className="a-field">
+            <label htmlFor="a-secret">Your secret name</label>
+            <input id="a-secret" placeholder="Aux Gremlin. Person From Church. Jollof Enthusiast." />
+            <p className="a-hint">This is all she sees.</p>
+          </div>
+
+          <fieldset className="a-status">
+            <legend>Are you coming</legend>
+            <div className="a-chips">
+              {Object.entries(STATUS_LABEL).map(([key, label]) => (
+                <button
+                  key={key}
+                  type="button"
+                  className={`a-chip${status === key ? " is-on" : ""}`}
+                  onClick={() => setStatus(key)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </fieldset>
+
+          <div className="a-field">
+            <label htmlFor="a-wish">A memory of you and Hannah</label>
+            <textarea
+              id="a-wish"
+              rows={4}
+              placeholder="She can't read it until she opens them."
+            />
+          </div>
+
+          <div className="a-reveal">
+            <p className="a-reveal-q">Should she know it's you?</p>
+            <div className="a-chips">
+              <button
+                type="button"
+                className={`a-chip${!reveal ? " is-on" : ""}`}
+                onClick={() => setReveal(false)}
+              >
+                Keep me a mystery
+              </button>
+              <button
+                type="button"
+                className={`a-chip${reveal ? " is-on" : ""}`}
+                onClick={() => setReveal(true)}
+              >
+                Fine, tell her
+              </button>
+            </div>
+            {reveal && (
+              <div className="a-field a-field-reveal">
+                <label htmlFor="a-real">Your real name</label>
+                <input id="a-real" placeholder="Sits beside your secret name on the day" />
               </div>
-            </article>
+            )}
+          </div>
+
+          <label className="a-photo">
+            <input type="checkbox" />
+            <span>I&apos;d rather not be in the photos or videos.</span>
+          </label>
+
+          <button type="submit" className="a-submit">
+            Seal it
+          </button>
+        </form>
+      </div>
+
+      <section className="a-wall">
+        <header className="a-wall-head">
+          <h2 className={display.className}>{GUESTS.length} replies, all sealed</h2>
+          <p>She opens them all at once and has to guess who wrote what.</p>
+        </header>
+
+        <ul className="a-envelopes">
+          {GUESTS.map((g) => (
+            <li key={g.secret} className={`a-env a-env-${g.status}`}>
+              <div className="a-flap" />
+              <div className="a-seal" />
+              <p className="a-env-name">{g.secret}</p>
+              <p className={`a-env-tag ${hand.className}`}>
+                {g.revealed ? `aka ${g.real}` : "identity withheld"}
+              </p>
+              <p className="a-env-status">{STATUS_LABEL[g.status]}</p>
+            </li>
           ))}
-        </section>
+        </ul>
+      </section>
 
-        <section className="s-secret">
-          <h2 className={`s-h2 ${display.className}`}>ONE MEMORY, NO NAME ON IT</h2>
-          <p>
-            Sign your reply with a secret name. Hannah reads the memory, never who sent it, until
-            she opens them all at once and has to work out who wrote what.
-          </p>
-        </section>
-
-        <section className="s-form-wrap">
-          <form onSubmit={(e) => e.preventDefault()}>
-            <h2 className={`s-h2 ${display.className}`}>REPLY</h2>
-
-            <fieldset>
-              <legend>Are you coming</legend>
-              <div className="s-row">
-                {Object.entries(STATUS_LABEL).map(([key, label]) => (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => setStatus(key)}
-                    className={`s-chip${status === key ? " is-on" : ""} ${display.className}`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-              {status === "cant" && (
-                <p className="s-early">Thanks for saying early. That's exactly what she asked for.</p>
-              )}
-            </fieldset>
-
-            <label className="s-field">
-              <span>Secret name</span>
-              <input placeholder="Aux Gremlin, Room 3B, Person From Church" />
-            </label>
-
-            <label className="s-field">
-              <span>A memory of you and Hannah</span>
-              <textarea rows={4} placeholder="She can't read it until she opens them." />
-            </label>
-
-            <fieldset>
-              <legend>Should she know it&apos;s you</legend>
-              <div className="s-row">
-                <button
-                  type="button"
-                  onClick={() => setReveal(false)}
-                  className={`s-chip${!reveal ? " is-on" : ""} ${display.className}`}
-                >
-                  No
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setReveal(true)}
-                  className={`s-chip${reveal ? " is-on" : ""} ${display.className}`}
-                >
-                  Yes
-                </button>
-              </div>
-              {reveal && (
-                <label className="s-field s-field-reveal">
-                  <span>Your real name</span>
-                  <input placeholder="Shown next to your secret name" />
-                </label>
-              )}
-            </fieldset>
-
-            <label className="s-photo">
-              <input type="checkbox" />
-              <span>I&apos;d rather not be in the photos or videos.</span>
-            </label>
-
-            <button type="submit" className={`s-send ${display.className}`}>
-              SEND IT
-            </button>
-          </form>
-        </section>
-
-        <section className="s-wall">
-          <h2 className={`s-h2 ${display.className}`}>{GUESTS.length} REPLIES</h2>
-          <ul>
-            {GUESTS.map((g) => (
-              <li key={g.secret}>
-                <span className={`s-wall-name ${display.className}`}>{g.secret}</span>
-                <span className="s-wall-real">
-                  {g.revealed ? `aka ${g.real}` : "still a mystery"}
-                </span>
-                <span className={`s-wall-tag s-tag-${g.status}`}>{STATUS_LABEL[g.status]}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      </main>
+      <footer className="a-footer">
+        <p className={hand.className}>see you on the 24th</p>
+      </footer>
     </div>
   );
 }
 
 const CSS = `
-.s-root {
-  --bone: #EDEAE3;
-  --ink: #101014;
-  --accent: #FF3B30;
-  --dim: #6F6C66;
+.a-root {
+  --pine: #10362E;
+  --pine-deep: #0B2721;
+  --stock: #FBF3E2;
+  --ink: #17130E;
+  --ink-soft: #5B5245;
+  --red: #C9302B;
+  --marigold: #E9A317;
+  --teal: #1C7C7C;
 
   position: relative;
   z-index: 10;
   min-height: 100vh;
-  background: var(--bone);
-  color: var(--ink);
-  display: grid;
-  grid-template-columns: minmax(300px, 38%) 1fr;
-}
-@media (max-width: 860px) { .s-root { grid-template-columns: 1fr; } }
-
-/* fixed type column */
-.s-left {
-  position: sticky;
-  top: 0;
-  align-self: start;
-  height: 100svh;
-  background: var(--ink);
-  color: var(--bone);
-  padding: clamp(20px, 2.6vw, 38px);
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(233,163,23,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 20%, rgba(28,124,124,0.22) 0%, transparent 50%),
+    linear-gradient(180deg, var(--pine) 0%, var(--pine-deep) 100%);
+  color: var(--stock);
+  padding: clamp(28px, 6vw, 72px) 20px 80px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
+  gap: clamp(40px, 7vw, 88px);
 }
-@media (max-width: 860px) { .s-left { position: static; height: auto; } }
 
-.s-left-top { display: flex; align-items: center; gap: 11px; }
-.s-mark { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; }
-.s-kicker { font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; opacity: 0.7; }
-
-.s-name { margin: 0; display: flex; flex-direction: column; line-height: 0.84; }
-.s-name span { font-size: clamp(2.6rem, 7vw, 5.4rem); letter-spacing: 0.005em; }
-.s-name-accent { color: var(--accent); }
-
-.s-left-foot { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
-.s-bigdate { margin: 0; font-size: clamp(2.2rem, 5vw, 3.6rem); }
-.s-left-note { margin: 0; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
-
-/* scrolling column */
-.s-right { min-width: 0; }
-
-.s-marquee { overflow: hidden; border-bottom: 1.5px solid var(--ink); padding: 11px 0; }
-.s-marquee-track {
-  display: flex;
-  white-space: nowrap;
-  font-size: 15px;
-  letter-spacing: 0.1em;
-  animation: s-slide 24s linear infinite;
+.a-card {
+  width: min(100%, 780px);
+  background: var(--stock);
+  color: var(--ink);
+  border-radius: 4px;
+  padding: clamp(34px, 5vw, 60px) clamp(24px, 5vw, 60px) clamp(28px, 5vw, 56px);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset, 0 26px 60px -20px rgba(0,0,0,0.55);
+  position: relative;
+  overflow: hidden;
 }
-@keyframes s-slide { to { transform: translateX(-50%); } }
 
-.s-facts { border-bottom: 1.5px solid var(--ink); }
-.s-fact {
-  display: flex;
-  gap: clamp(14px, 2.4vw, 30px);
-  padding: clamp(20px, 3vw, 34px) clamp(20px, 3vw, 44px);
-  border-bottom: 1px solid rgba(16,16,20,0.14);
-  transition: background 220ms ease;
-}
-.s-fact:last-child { border-bottom: 0; }
-.s-fact:hover { background: rgba(16,16,20,0.04); }
-.s-fact-n { font-size: 11px; letter-spacing: 0.2em; color: var(--accent); padding-top: 5px; flex: none; }
-.s-fact-k { font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--dim); }
-.s-fact-v { margin: 5px 0 6px; font-size: clamp(1.4rem, 3vw, 2.2rem); line-height: 1.04; }
-.s-fact p { margin: 0; font-size: 14.5px; line-height: 1.6; color: var(--dim); max-width: 46ch; }
+.a-ribbon { position: absolute; inset: 0 0 auto; height: 9px; display: flex; }
+.a-ribbon span { flex: 1; }
+.a-ribbon span:nth-child(1) { background: var(--red); }
+.a-ribbon span:nth-child(2) { background: var(--marigold); }
+.a-ribbon span:nth-child(3) { background: var(--teal); }
+.a-ribbon span:nth-child(4) { background: var(--pine); }
 
-.s-secret {
-  padding: clamp(26px, 4vw, 50px) clamp(20px, 3vw, 44px);
-  background: var(--accent);
-  color: #FFF4F3;
-}
-.s-h2 { margin: 0 0 12px; font-size: clamp(1.5rem, 3.4vw, 2.4rem); letter-spacing: 0.01em; }
-.s-secret p { margin: 0; font-size: 15.5px; line-height: 1.7; max-width: 56ch; }
-
-.s-form-wrap { padding: clamp(26px, 4vw, 50px) clamp(20px, 3vw, 44px); }
-.s-form-wrap form { max-width: 560px; display: flex; flex-direction: column; gap: 22px; }
-.s-form-wrap fieldset { border: 0; margin: 0; padding: 0; }
-.s-form-wrap legend, .s-field > span {
-  font-size: 10.5px;
-  letter-spacing: 0.26em;
+.a-eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--dim);
-  padding: 0 0 10px;
+  color: var(--teal);
+  margin: 0 0 clamp(16px, 3vw, 26px);
+  font-weight: 700;
 }
-.s-field { display: flex; flex-direction: column; gap: 8px; }
-.s-field > span { padding: 0; }
-.s-field input, .s-field textarea {
+
+.a-title {
+  margin: 0;
+  font-size: clamp(28px, 4.6vw, 42px);
+  line-height: 1.05;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.a-name {
+  display: block;
+  font-size: clamp(44px, 10vw, 92px);
+  line-height: 0.92;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  margin-top: 6px;
+  font-variation-settings: "SOFT" 40, "WONK" 1;
+}
+
+.a-gag {
+  margin: clamp(16px, 2.4vw, 24px) 0 0;
+  font-size: clamp(22px, 3vw, 28px);
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  line-height: 1.1;
+}
+.a-strike { position: relative; display: inline-block; }
+.a-strike svg { position: absolute; left: -6%; top: 14%; width: 112%; height: 82%; overflow: visible; }
+.a-strike path {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 4;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+.a-man {
+  color: var(--red);
+  font-size: clamp(52px, 8.5vw, 82px);
+  line-height: 0.72;
+  transform: rotate(-4deg);
+  display: inline-block;
+}
+
+.a-rule {
+  height: 1px;
+  background: repeating-linear-gradient(90deg, rgba(23,19,14,0.30) 0 6px, transparent 6px 12px);
+  margin: clamp(26px, 4vw, 38px) 0;
+}
+
+.a-details {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 24px;
+}
+.a-details dt {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--teal);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.a-details dd {
+  margin: 0;
+  font-size: clamp(19px, 2.3vw, 22px);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.25;
+}
+.a-details dd em {
+  display: block;
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink-soft);
+  margin-top: 3px;
+}
+
+.a-game {
+  background: rgba(28,124,124,0.10);
+  border-left: 4px solid var(--teal);
+  padding: 18px 20px;
+  margin-bottom: clamp(26px, 4vw, 34px);
+}
+.a-game-head { margin: 0 0 6px; font-size: clamp(20px, 2.8vw, 26px); font-weight: 700; }
+.a-game p:last-child { margin: 0; font-size: 15px; line-height: 1.65; color: var(--ink-soft); }
+
+.a-form { display: flex; flex-direction: column; gap: 24px; }
+.a-field { display: flex; flex-direction: column; gap: 8px; }
+.a-field label,
+.a-status legend,
+.a-reveal-q {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+.a-field input,
+.a-field textarea {
   font: inherit;
   font-size: 16px;
-  background: transparent;
-  border: 0;
-  border-bottom: 1.5px solid var(--ink);
-  padding: 11px 2px;
   color: var(--ink);
-  border-radius: 0;
+  background: rgba(255,255,255,0.55);
+  border: 1.5px solid rgba(23,19,14,0.28);
+  padding: 13px 15px;
+  border-radius: 3px;
   resize: vertical;
 }
-.s-field textarea { border: 1.5px solid var(--ink); padding: 13px; }
-.s-field input::placeholder, .s-field textarea::placeholder { color: #AEAAA3; }
-.s-field input:focus, .s-field textarea:focus { outline: none; border-color: var(--accent); }
+.a-field input::placeholder,
+.a-field textarea::placeholder { color: rgba(91,82,69,0.5); }
+.a-field input:focus,
+.a-field textarea:focus { outline: none; border-color: var(--red); background: #FFF; }
+.a-hint { margin: 0; font-size: 13px; color: var(--ink-soft); font-style: italic; }
 
-.s-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.s-chip {
+.a-status { border: 0; padding: 0; margin: 0; }
+.a-status legend { padding: 0; margin-bottom: 10px; }
+.a-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+.a-chip {
   cursor: pointer;
+  font: inherit;
+  font-weight: 600;
   font-size: 15px;
-  letter-spacing: 0.06em;
-  padding: 11px 24px;
-  border: 1.5px solid var(--ink);
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(23,19,14,0.28);
   background: transparent;
-  color: var(--ink);
-  transition: background 160ms ease, color 160ms ease;
+  color: var(--ink-soft);
+  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
 }
-.s-chip:hover { background: rgba(16,16,20,0.08); }
-.s-chip.is-on { background: var(--ink); color: var(--bone); }
-.s-early { margin: 11px 0 0; font-size: 14px; color: var(--accent); }
+.a-chip:hover { border-color: var(--ink); color: var(--ink); }
+.a-chip.is-on { background: var(--pine); border-color: var(--pine); color: var(--stock); }
 
-.s-photo {
+.a-reveal {
+  background: rgba(233,163,23,0.14);
+  border: 1.5px dashed rgba(233,163,23,0.7);
+  border-radius: 4px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.a-reveal-q { margin: 0; }
+.a-field-reveal { margin-top: 4px; }
+
+.a-photo {
   display: flex;
   gap: 11px;
   align-items: flex-start;
-  font-size: 14.5px;
+  font-size: 15px;
   line-height: 1.55;
-  color: var(--dim);
+  color: var(--ink-soft);
   cursor: pointer;
 }
-.s-photo input { margin-top: 3px; accent-color: var(--accent); cursor: pointer; }
+.a-photo input { margin-top: 3px; accent-color: var(--red); cursor: pointer; }
 
-.s-send {
+.a-submit {
   cursor: pointer;
   align-self: flex-start;
-  font-size: 18px;
-  letter-spacing: 0.08em;
-  padding: 15px 40px;
-  border: 0;
-  background: var(--accent);
-  color: #FFF4F3;
-  transition: background 160ms ease;
-}
-.s-send:hover { background: #D92B21; }
-
-.s-wall { padding: clamp(26px, 4vw, 50px) clamp(20px, 3vw, 44px) clamp(50px, 7vw, 90px); border-top: 1.5px solid var(--ink); }
-.s-wall ul { list-style: none; margin: 16px 0 0; padding: 0; }
-.s-wall li {
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  padding: 15px 0;
-  border-bottom: 1px solid rgba(16,16,20,0.14);
-  flex-wrap: wrap;
-}
-.s-wall-name { font-size: clamp(1.05rem, 2vw, 1.3rem); }
-.s-wall-real { flex: 1; font-size: 13px; color: var(--dim); }
-.s-wall-tag {
-  font-size: 10.5px;
-  letter-spacing: 0.16em;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 4px 11px;
-  border: 1.5px solid var(--ink);
+  font-size: 14px;
+  padding: 16px 38px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--red);
+  color: var(--stock);
+  transition: transform 140ms ease, background 140ms ease;
 }
-.s-tag-coming { background: var(--ink); color: var(--bone); }
-.s-tag-cant { border-style: dashed; color: var(--dim); }
+.a-submit:hover { background: #A9241F; transform: translateY(-1px); }
+
+.a-wall { width: min(100%, 1000px); }
+.a-wall-head { text-align: center; margin-bottom: clamp(24px, 4vw, 40px); }
+.a-wall-head h2 {
+  margin: 0 0 8px;
+  font-size: clamp(26px, 4.4vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--stock);
+}
+.a-wall-head p { margin: 0; color: rgba(251,243,226,0.66); font-size: 15px; }
+
+.a-envelopes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 18px;
+}
+.a-env {
+  position: relative;
+  background: var(--stock);
+  color: var(--ink);
+  border-radius: 3px;
+  padding: 46px 18px 18px;
+  overflow: hidden;
+  box-shadow: 0 14px 30px -16px rgba(0,0,0,0.6);
+  transition: transform 180ms ease;
+}
+.a-env:hover { transform: translateY(-3px) rotate(-0.4deg); }
+.a-flap {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 62px;
+  background: linear-gradient(175deg, rgba(23,19,14,0.10), rgba(23,19,14,0.03));
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+.a-seal {
+  position: absolute;
+  top: 44px;
+  left: 50%;
+  width: 26px;
+  height: 26px;
+  margin-left: -13px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+}
+.a-env-maybe .a-seal { background: var(--marigold); }
+.a-env-cant .a-seal { background: #8C8378; }
+.a-env-name { margin: 16px 0 2px; font-weight: 700; font-size: 18px; line-height: 1.25; }
+.a-env-tag { margin: 0; font-size: 21px; color: var(--teal); line-height: 1; }
+.a-env-status {
+  margin: 12px 0 0;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.a-footer { color: rgba(251,243,226,0.75); }
+.a-footer p { margin: 0; font-size: 30px; transform: rotate(-2deg); }
 
 @media (prefers-reduced-motion: reduce) {
-  .s-root *, .s-marquee-track { animation: none !important; transition: none !important; }
+  .a-root * { transition: none !important; animation: none !important; }
 }
 `;

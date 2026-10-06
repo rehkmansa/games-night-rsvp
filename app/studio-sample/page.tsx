@@ -120,9 +120,9 @@ export default function KineticSample() {
       {/* hero */}
       <header className="k-hero">
         <p className="k-eyebrow">
-          <span>Faleti Hannah</span>
+          <span>Birthday hangout</span>
           <i />
-          <span>birthday hangout</span>
+          <span>Faleti Hannah</span>
         </p>
 
         <h1 className={`k-title ${display.className}`} aria-label="Hannah">
@@ -165,12 +165,13 @@ export default function KineticSample() {
       {/* mechanic */}
       <section className="k-secret">
         <h2 className={`k-h2 ${display.className}`}>
-          One memory.
-          <span>No name on it.</span>
+          Leave a fond
+          <span>memory.</span>
         </h2>
         <p>
-          Sign your reply with a secret name. Hannah reads the memory, never who sent it, until she
-          opens them all at once and has to guess.
+          Your reply carries a memory of the two of you, signed with a secret name. Hannah sees the
+          memory, never who sent it, until she opens them all at once and has to guess who wrote
+          what.
         </p>
       </section>
 
