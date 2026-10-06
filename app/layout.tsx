@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Caveat, Work_Sans } from "next/font/google";
+import { Fraunces, Caveat, Karla } from "next/font/google";
 import "./globals.css";
 
-const display = Bricolage_Grotesque({
+const display = Fraunces({
   variable: "--font-display",
   subsets: ["latin"],
+  axes: ["SOFT", "WONK", "opsz"],
 });
 
 const hand = Caveat({
@@ -12,7 +13,7 @@ const hand = Caveat({
   subsets: ["latin"],
 });
 
-const body = Work_Sans({
+const body = Karla({
   variable: "--font-body",
   subsets: ["latin"],
 });
@@ -52,7 +53,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#fdf8f3",
+  themeColor: "#10362e",
 };
 
 export default function RootLayout({
@@ -65,7 +66,7 @@ export default function RootLayout({
       lang="en"
       className={`${display.variable} ${hand.variable} ${body.variable} h-full antialiased`}
     >
-      <body className="relative flex min-h-full flex-col">{children}</body>
+      <body className="min-h-full">{children}</body>
     </html>
   );
 }

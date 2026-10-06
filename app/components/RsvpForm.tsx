@@ -6,23 +6,10 @@ import { submitRsvp, type RsvpFormState } from "../actions";
 const initialState: RsvpFormState = { ok: false };
 
 const STATUSES = [
-  { value: "coming", label: "I'm in" },
+  { value: "coming", label: "Coming" },
   { value: "maybe", label: "Maybe" },
-  { value: "cant", label: "Can't" },
+  { value: "cant", label: "Can't make it" },
 ] as const;
-
-const labelClass = "text-[10.5px] font-bold uppercase tracking-[0.22em] text-soft";
-
-const fieldClass =
-  "border-0 border-b-2 border-ink/30 bg-[#FFFBF7] px-1 py-[11px] text-[15.5px] text-ink outline-none placeholder:text-[#BFAFA7] focus:border-coral focus:bg-white";
-
-function pill(active: boolean) {
-  return `cursor-pointer rounded-full border-2 px-5 py-2.5 text-[15px] font-semibold transition-colors ${
-    active
-      ? "border-coral bg-coral text-white"
-      : "border-ink/30 text-soft hover:border-ink hover:text-ink"
-  }`;
-}
 
 export function RsvpForm() {
   const [state, formAction, pending] = useActionState(submitRsvp, initialState);
@@ -45,34 +32,24 @@ export function RsvpForm() {
   }, [state]);
 
   return (
-    <form
-      ref={formRef}
-      action={formAction}
-      className="relative mx-auto mt-9 flex w-[min(100%,600px)] -rotate-[0.4deg] flex-col gap-5 bg-card px-6 py-7 paper-shadow-lg sm:mt-14 sm:px-9 sm:py-9"
-    >
-      <span className="tape -top-3 left-1/2 -ml-[46px] -rotate-2" aria-hidden="true" />
-
-      <h2 className="font-display text-[clamp(1.4375rem,3.6vw,2rem)] font-extrabold tracking-[-0.02em]">
-        Add yourself
-      </h2>
-
-      <label className="flex flex-col gap-1.5">
-        <span className={labelClass}>Your secret name</span>
+    <form ref={formRef} action={formAction} className="a-form">
+      <div className="a-field">
+        <label htmlFor="secretName">Your secret name</label>
         <input
+          id="secretName"
           name="secretName"
           required
           maxLength={60}
-          placeholder="Bench Philosopher, Room 3B, Aux Gremlin"
-          className={fieldClass}
+          placeholder="Aux Gremlin. Room 3B. Person From Church."
         />
-        <span className="font-hand text-[21px] text-coral">this is all she sees</span>
-      </label>
+        <p className="a-hint">This is all she sees.</p>
+      </div>
 
-      <fieldset className="border-0 p-0">
-        <legend className={`mb-2.5 ${labelClass}`}>Are you coming</legend>
-        <div className="flex flex-wrap gap-2.5">
+      <fieldset className="a-status">
+        <legend>Are you coming</legend>
+        <div className="a-chips">
           {STATUSES.map((s) => (
-            <label key={s.value} className={pill(status === s.value)}>
+            <label key={s.value} className={`a-chip${status === s.value ? " is-on" : ""}`}>
               <input
                 type="radio"
                 name="status"
@@ -87,69 +64,64 @@ export function RsvpForm() {
         </div>
       </fieldset>
 
-      <label className="flex flex-col gap-1.5">
-        <span className={labelClass}>A memory of you and Hannah</span>
+      <div className="a-field">
+        <label htmlFor="memory">A memory of you and Hannah</label>
         <textarea
+          id="memory"
           name="memory"
           required
           maxLength={500}
           rows={4}
-          placeholder="The one you still bring up. She can't read it until she opens them."
-          className={`${fieldClass} resize-y border-2 border-ink/30 p-3`}
+          placeholder="She can't read it until she opens them."
         />
-      </label>
+      </div>
 
-      <div className="flex flex-col gap-3 border-2 border-dashed border-ink/30 bg-sun/12 p-4">
-        <p className={labelClass}>Should she know it&apos;s you?</p>
+      <div className="a-reveal">
+        <p className="a-reveal-q">Should she know it&apos;s you?</p>
         <input type="hidden" name="reveal" value={reveal ? "yes" : "no"} />
-        <div className="flex flex-wrap gap-2.5">
-          <button type="button" onClick={() => setReveal(false)} className={pill(!reveal)}>
+        <div className="a-chips">
+          <button
+            type="button"
+            className={`a-chip${!reveal ? " is-on" : ""}`}
+            onClick={() => setReveal(false)}
+          >
             Keep me a mystery
           </button>
-          <button type="button" onClick={() => setReveal(true)} className={pill(reveal)}>
+          <button
+            type="button"
+            className={`a-chip${reveal ? " is-on" : ""}`}
+            onClick={() => setReveal(true)}
+          >
             Fine, tell her
           </button>
         </div>
         {reveal && (
-          <label className="bounce-in mt-1 flex flex-col gap-1.5">
-            <span className={labelClass}>Your real name</span>
+          <div className="a-field a-field-reveal">
+            <label htmlFor="realName">Your real name</label>
             <input
+              id="realName"
               name="realName"
               maxLength={80}
-              placeholder="Shown next to your secret name on the day"
-              className={fieldClass}
+              placeholder="Shown next to your secret name"
             />
-          </label>
+          </div>
         )}
       </div>
 
-      <label className="flex cursor-pointer items-start gap-3 border-2 border-ink/20 bg-[#FFFBF7] p-4">
-        <input
-          type="checkbox"
-          name="photoOptOut"
-          value="yes"
-          className="mt-0.5 h-4 w-4 cursor-pointer accent-coral"
-        />
-        <span className="text-[14.5px] leading-snug text-soft">
-          There&apos;ll be someone taking photos and videos.{" "}
-          <strong className="font-semibold text-ink">Tick this if you&apos;d rather not be in them</strong>{" "}
-          and we&apos;ll pass it on.
-        </span>
+      <label className="a-photo">
+        <input type="checkbox" name="photoOptOut" value="yes" />
+        <span>I&apos;d rather not be in the photos or videos.</span>
       </label>
 
-      {state.error && <p className="font-hand text-2xl text-rasp">{state.error}</p>}
+      {state.error && <p className="a-error font-hand">{state.error}</p>}
       {state.ok && (
-        <p className="bounce-in border-l-4 border-coral bg-coral/10 px-4 py-3 font-hand text-2xl text-coral">
-          You&apos;re on the board, {state.secretName}. See you on the grass.
+        <p className="a-ok font-hand">
+          Sealed. See you on the 24th, {state.secretName}.
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="cursor-pointer self-start rounded-full bg-ink px-8 py-3.5 font-display text-lg font-extrabold text-cream transition-all hover:-translate-y-0.5 hover:bg-rasp disabled:opacity-60"
-      >
-        {pending ? "Pinning..." : "Pin it up"}
+      <button type="submit" className="a-submit" disabled={pending}>
+        {pending ? "Sending..." : "Seal it"}
       </button>
     </form>
   );
