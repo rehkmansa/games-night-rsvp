@@ -152,7 +152,7 @@ export default function CardSample() {
       <section className="a-wall">
         <header className="a-wall-head">
           <h2 className={display.className}>{GUESTS.length} replies, all sealed</h2>
-          <p>She opens them all at once and has to guess who wrote what.</p>
+          <p>She opens them all at once and starts guessing.</p>
         </header>
 
         <ul className="a-envelopes">
