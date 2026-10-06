@@ -4,34 +4,34 @@ import { RsvpForm } from "./RsvpForm";
 const FACTS = [
   {
     k: "when",
-    v: "Sat 12 September",
-    p: "Next week Saturday. We start at 12 noon.",
+    v: "Sat 24 October",
+    p: "Put it in your phone now.",
     rule: "border-t-sun",
   },
   {
     k: "where",
-    v: "Alausa, Ikeja",
-    p: "By the House of Assembly, beside the Lagos State Secretariat.",
+    v: "Hannah's estate",
+    p: "She'll send the exact address closer to the day.",
     rule: "border-t-coral",
   },
   {
-    k: "bring",
-    v: "Something",
-    p: "It's a potluck. Food, drink, a mat, a speaker, a game.",
+    k: "reply by",
+    v: "Sat 17 October",
+    p: "A week before. She's counting heads for food and drinks.",
     rule: "border-t-rasp",
   },
   {
     k: "expect",
-    v: "Games",
-    p: "Yes, you're playing. Everyone plays.",
+    v: "Games and gist",
+    p: "Food, drinks, pictures. All sorted, just bring yourself.",
     rule: "border-t-plum",
   },
 ];
 
 const TILES = [
-  { Art: BlanketScene, caption: "the grass", tilt: "-rotate-2" },
+  { Art: BlanketScene, caption: "the spread", tilt: "-rotate-2" },
   { Art: FoodScene, caption: "the food", tilt: "rotate-1 mt-3.5" },
-  { Art: NoiseScene, caption: "the noise", tilt: "-rotate-1" },
+  { Art: NoiseScene, caption: "the gist", tilt: "-rotate-1" },
 ];
 
 export function InviteBoard() {
@@ -45,11 +45,11 @@ export function InviteBoard() {
           aria-hidden="true"
         />
         <p className="font-hand text-[clamp(1.375rem,3vw,1.75rem)] -rotate-1 text-coral">
-          we start at 12 noon
+          she would really love you there
         </p>
         <h1 className="mt-1.5 flex flex-col font-display text-[clamp(2.5rem,8.6vw,5.25rem)] font-extrabold leading-[0.92] tracking-[-0.03em]">
-          Meera&apos;s
-          <span className="text-coral">birthday picnic</span>
+          Hannah&apos;s
+          <span className="text-coral">birthday hangout</span>
         </h1>
         <Squiggle className="mt-3.5 block h-[18px] w-[min(320px,70%)]" />
       </div>
@@ -98,11 +98,11 @@ export function InviteBoard() {
           Everyone leaves one memory
         </h2>
         <p className="mt-2.5 max-w-[58ch] text-[15.5px] leading-relaxed text-cream/85">
-          You leave a memory of the two of you, signed with a secret name. Meera sees the memory,
+          You leave a memory of the two of you, signed with a secret name. Hannah sees the memory,
           never who sent it.
         </p>
         <p className="mt-2 font-hand text-2xl text-sun">
-          they all open on the day and she has to guess every single one
+          she opens them all at once and has to guess every single one
         </p>
       </div>
 

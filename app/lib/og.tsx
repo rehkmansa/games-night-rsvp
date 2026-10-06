@@ -3,14 +3,14 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Meera's Birthday Picnic. Saturday 12 September at 12 noon, Alausa, Ikeja. Potluck, games, and a memory under a secret name.";
+  "Faleti Hannah's Birthday Hangout. Saturday 24 October, at her estate. Reply by 17 October.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const FACTS = [
-  { k: "WHEN", v: "Sat 12 September" },
-  { k: "TIME", v: "12 noon" },
-  { k: "WHERE", v: "Alausa, Ikeja" },
+  { k: "WHEN", v: "Sat 24 October" },
+  { k: "WHERE", v: "Her estate" },
+  { k: "REPLY BY", v: "Sat 17 October" },
 ];
 
 async function font(file: string) {
@@ -68,7 +68,7 @@ export async function renderOgImage(): Promise<ImageResponse> {
           />
 
           <div style={{ fontFamily: "Caveat", fontSize: 40, color: "#D9634A" }}>
-            we start at 12 noon
+            she would really love you there
           </div>
 
           <div
@@ -80,7 +80,7 @@ export async function renderOgImage(): Promise<ImageResponse> {
               marginTop: 6,
             }}
           >
-            Meera&apos;s
+            Hannah&apos;s
           </div>
           <div
             style={{
@@ -91,7 +91,7 @@ export async function renderOgImage(): Promise<ImageResponse> {
               marginTop: -8,
             }}
           >
-            birthday picnic
+            birthday hangout
           </div>
 
           <div style={{ flex: 1 }} />
@@ -131,8 +131,8 @@ export async function renderOgImage(): Promise<ImageResponse> {
               marginTop: 24,
             }}
           >
-            By the House of Assembly, beside the Lagos State Secretariat · potluck · leave a memory
-            under a secret name
+            Exact address closer to the day · food and drinks sorted · leave a memory under a
+            secret name
           </div>
         </div>
       </div>

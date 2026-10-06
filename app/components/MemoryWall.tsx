@@ -32,7 +32,7 @@ export function MemoryWall({ entries, open }: { entries: PublicRsvp[]; open: boo
 
       {entries.length === 0 ? (
         <p className="mt-3 max-w-[52ch] text-[15px] text-soft">
-          Add your name above and your memory goes up here, sealed, until the picnic.
+          Add your name above and your memory goes up here, sealed, until she opens them.
         </p>
       ) : (
         <ul className="mt-5 grid list-none grid-cols-[repeat(auto-fill,minmax(215px,1fr))] gap-[18px] p-0">

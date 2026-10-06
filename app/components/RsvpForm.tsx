@@ -88,13 +88,13 @@ export function RsvpForm() {
       </fieldset>
 
       <label className="flex flex-col gap-1.5">
-        <span className={labelClass}>A memory of you and Meera</span>
+        <span className={labelClass}>A memory of you and Hannah</span>
         <textarea
           name="memory"
           required
           maxLength={500}
           rows={4}
-          placeholder="The one you still bring up. She can't read it until the picnic."
+          placeholder="The one you still bring up. She can't read it until she opens them."
           className={`${fieldClass} resize-y border-2 border-ink/30 p-3`}
         />
       </label>
@@ -122,6 +122,20 @@ export function RsvpForm() {
           </label>
         )}
       </div>
+
+      <label className="flex cursor-pointer items-start gap-3 border-2 border-ink/20 bg-[#FFFBF7] p-4">
+        <input
+          type="checkbox"
+          name="photoOptOut"
+          value="yes"
+          className="mt-0.5 h-4 w-4 cursor-pointer accent-coral"
+        />
+        <span className="text-[14.5px] leading-snug text-soft">
+          There&apos;ll be someone taking photos and videos.{" "}
+          <strong className="font-semibold text-ink">Tick this if you&apos;d rather not be in them</strong>{" "}
+          and we&apos;ll pass it on.
+        </span>
+      </label>
 
       {state.error && <p className="font-hand text-2xl text-rasp">{state.error}</p>}
       {state.ok && (

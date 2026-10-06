@@ -2,7 +2,7 @@
 
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
-import { readRsvps, writeRsvps } from "./lib/storage";
+import { readStore, writeStore } from "./lib/storage";
 import type { Rsvp, RsvpStatus } from "./lib/types";
 
 export type RsvpFormState = {
@@ -26,6 +26,7 @@ export async function submitRsvp(
   const status = clean(formData.get("status"), 10) as RsvpStatus;
   const reveal = clean(formData.get("reveal"), 5) === "yes";
   const realName = clean(formData.get("realName"), 80);
+  const photoOptOut = clean(formData.get("photoOptOut"), 5) === "yes";
 
   if (!secretName || !memory) {
     return { ok: false, error: "We need a secret name and a memory." };
@@ -37,25 +38,19 @@ export async function submitRsvp(
     return { ok: false, error: "You said to tell her, so add your real name." };
   }
 
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    return {
-      ok: false,
-      error: "Storage isn't set up yet. Add BLOB_READ_WRITE_TOKEN in Vercel.",
-    };
-  }
-
   const entry: Rsvp = {
     id: randomUUID(),
     secretName,
     memory,
     status,
+    photoOptOut,
     createdAt: new Date().toISOString(),
     ...(reveal ? { realName } : {}),
   };
 
   try {
-    const entries = await readRsvps();
-    await writeRsvps([...entries, entry]);
+    const store = await readStore();
+    await writeStore({ ...store, entries: [...store.entries, entry] });
   } catch (err) {
     console.error("[rsvp] save failed:", err);
     const detail = err instanceof Error ? err.message : "unknown error";
