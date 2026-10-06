@@ -40,7 +40,7 @@ export default function EnvelopeSample() {
       setOpen(true);
       return;
     }
-    const t = setTimeout(() => setOpen(true), 650);
+    const t = setTimeout(() => setOpen(true), 220);
     return () => clearTimeout(t);
   }, []);
   const [status, setStatus] = useState("coming");
@@ -83,9 +83,15 @@ export default function EnvelopeSample() {
           <div className="v-pocket" aria-hidden="true" />
         </div>
 
-        <button type="button" className="v-open" onClick={() => setOpen((o) => !o)}>
-          {open ? "Close it" : "Open it again"}
-        </button>
+        <div className="v-cta">
+          <a href="#rsvp" className="v-cta-main">
+            RSVP
+            <i aria-hidden="true">↓</i>
+          </a>
+          <button type="button" className="v-open" onClick={() => setOpen((o) => !o)}>
+            {open ? "Close it" : "Open it again"}
+          </button>
+        </div>
       </section>
 
       <section className="v-secret">
@@ -97,7 +103,7 @@ export default function EnvelopeSample() {
         </p>
       </section>
 
-      <section className="v-form-wrap">
+      <section className="v-form-wrap" id="rsvp">
         <form onSubmit={(e) => e.preventDefault()}>
           <h2 className={`v-h2 ${display.className}`}>RSVP</h2>
 
@@ -203,8 +209,10 @@ const CSS = `
 }
 
 .v-stage {
-  min-height: 100svh;
-  padding-top: clamp(60px, 10vw, 120px);
+  /* deliberately under a full viewport: the top of the next section has to
+     peek above the fold or nobody scrolls and the RSVP never gets filled */
+  min-height: 88svh;
+  padding-top: clamp(54px, 8vw, 92px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -244,10 +252,10 @@ const CSS = `
   padding: clamp(16px, 2.6vw, 26px) clamp(18px, 3vw, 32px);
   transform: translateY(8%);
   opacity: 0;
-  transition: transform 780ms cubic-bezier(0.22, 1, 0.36, 1) 180ms, opacity 360ms ease 180ms;
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1) 90ms, opacity 260ms ease 90ms;
   box-shadow: 0 -14px 34px -20px rgba(20,26,43,0.55);
 }
-.v-env.is-open .v-card { transform: translateY(-64%); opacity: 1; }
+.v-env.is-open .v-card { transform: translateY(-54%); opacity: 1; }
 
 .v-card-k { margin: 0; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
 .v-card-title { margin: 6px 0 0; display: flex; flex-direction: column; font-weight: 500; line-height: 1.04; }
@@ -278,7 +286,7 @@ const CSS = `
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   transform-origin: top center;
   transform: rotateX(0deg);
-  transition: transform 780ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 540ms cubic-bezier(0.22, 1, 0.36, 1);
   z-index: 3;
   backface-visibility: hidden;
 }
@@ -307,20 +315,42 @@ const CSS = `
   clip-path: polygon(0 36%, 50% 0, 100% 36%, 100% 100%, 0 100%);
 }
 
+.v-cta { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.v-cta-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 16px 42px;
+  border-radius: 999px;
+  background: var(--navy);
+  color: var(--paper);
+  box-shadow: 0 14px 30px -14px rgba(20,26,43,0.75);
+  transition: background 200ms ease, transform 200ms ease;
+}
+.v-cta-main:hover { background: var(--gold); transform: translateY(-2px); }
+.v-cta-main i { font-style: normal; animation: v-nudge 1.8s ease-in-out infinite; }
+@keyframes v-nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+
 .v-open {
   cursor: pointer;
   font: inherit;
-  font-size: 12px;
-  letter-spacing: 0.24em;
+  font-size: 11px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  padding: 13px 30px;
-  border: 1px solid var(--navy);
+  padding: 6px 4px;
+  border: 0;
   background: transparent;
-  color: var(--navy);
-  border-radius: 999px;
-  transition: background 200ms ease, color 200ms ease;
+  color: var(--dim);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 200ms ease;
 }
-.v-open:hover { background: var(--navy); color: var(--paper); }
+.v-open:hover { color: var(--navy); }
 
 /* sections */
 .v-secret, .v-form-wrap, .v-wall { max-width: 760px; margin: 0 auto; padding: 0 20px; }
@@ -328,7 +358,7 @@ const CSS = `
 .v-h2 { margin: 0 0 10px; font-size: clamp(1.6rem, 3.6vw, 2.3rem); font-weight: 500; }
 .v-secret p { margin: 0; font-size: 16px; line-height: 1.75; color: var(--dim); max-width: 58ch; }
 
-.v-form-wrap { padding-top: clamp(30px, 5vw, 58px); }
+.v-form-wrap { padding-top: clamp(30px, 5vw, 58px); scroll-margin-top: 24px; }
 .v-form-wrap form { display: flex; flex-direction: column; gap: 22px; }
 .v-form-wrap fieldset { border: 0; margin: 0; padding: 0; }
 .v-form-wrap legend, .v-field > span {
@@ -426,7 +456,7 @@ const CSS = `
 .v-tag-coming { background: rgba(176,134,71,0.18); color: #7A5A28; }
 
 @media (prefers-reduced-motion: reduce) {
-  .v-root *, .v-flap, .v-card { transition: none !important; animation: none !important; }
-  .v-card { transform: translateY(-64%); opacity: 1; }
+  .v-root *, .v-flap, .v-card, .v-cta-main i { transition: none !important; animation: none !important; }
+  .v-card { transform: translateY(-54%); opacity: 1; }
 }
 `;
