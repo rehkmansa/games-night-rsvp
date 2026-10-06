@@ -45,6 +45,7 @@ export default function EnvelopeSample() {
   }, []);
   const [status, setStatus] = useState("coming");
   const [reveal, setReveal] = useState(false);
+  const [step, setStep] = useState(0);
 
   return (
     <div className={`v-root ${body.className}`}>
@@ -104,72 +105,105 @@ export default function EnvelopeSample() {
       </section>
 
       <section className="v-form-wrap" id="rsvp">
-        <form onSubmit={(e) => e.preventDefault()}>
-          <h2 className={`v-h2 ${display.className}`}>RSVP</h2>
+        <form className="v-steps" onSubmit={(e) => e.preventDefault()}>
+          <header className="v-steps-head">
+            <span className={`v-steps-k ${display.className}`}>RSVP</span>
+            <span className="v-steps-count">{step + 1} of 3</span>
+            <span className="v-steps-bar" aria-hidden="true">
+              <i style={{ width: `${((step + 1) / 3) * 100}%` }} />
+            </span>
+          </header>
 
-          <fieldset>
-            <legend>Are you coming</legend>
-            <div className="v-row">
-              {Object.entries(STATUS_LABEL).map(([key, label]) => (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={() => setStatus(key)}
-                  className={`v-chip${status === key ? " is-on" : ""}`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-            {status === "cant" && (
-              <p className="v-early">Thank you for saying early. It genuinely helps her plan.</p>
+          <div className="v-steps-body">
+            {step === 0 && (
+              <div className="v-step">
+                <p className="v-step-q">Are you coming?</p>
+                <div className="v-step-opts">
+                  {Object.entries(STATUS_LABEL).map(([key, label]) => (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => {
+                        setStatus(key);
+                        setStep(1);
+                      }}
+                      className={`v-opt${status === key ? " is-on" : ""}`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+                {status === "cant" && (
+                  <p className="v-early">Thank you for saying early. It really helps her plan.</p>
+                )}
+              </div>
             )}
-          </fieldset>
 
-          <label className="v-field">
-            <span>Secret name</span>
-            <input placeholder="Aux Gremlin, Room 3B, Person From Church" />
-          </label>
-
-          <label className="v-field">
-            <span>A memory of you and Hannah</span>
-            <textarea rows={4} placeholder="She can't read it until she opens them." />
-          </label>
-
-          <fieldset>
-            <legend>Should she know it&apos;s you</legend>
-            <div className="v-row">
-              <button
-                type="button"
-                onClick={() => setReveal(false)}
-                className={`v-chip${!reveal ? " is-on" : ""}`}
-              >
-                Keep me a mystery
-              </button>
-              <button
-                type="button"
-                onClick={() => setReveal(true)}
-                className={`v-chip${reveal ? " is-on" : ""}`}
-              >
-                Tell her
-              </button>
-            </div>
-            {reveal && (
-              <label className="v-field v-field-reveal">
-                <span>Your real name</span>
-                <input placeholder="Shown next to your secret name" />
-              </label>
+            {step === 1 && (
+              <div className="v-step">
+                <p className="v-step-q">Sign it with a secret name</p>
+                <input
+                  className="v-step-input"
+                  placeholder="Aux Gremlin"
+                  autoFocus
+                />
+                <p className="v-step-hint">She sees this, not your real name.</p>
+                <textarea
+                  className="v-step-input v-step-area"
+                  rows={3}
+                  placeholder="Now the memory. Keep it personal."
+                />
+              </div>
             )}
-          </fieldset>
 
-          <label className="v-photo">
-            <input type="checkbox" />
-            <span>I&apos;d rather not be in the photos or videos.</span>
-          </label>
+            {step === 2 && (
+              <div className="v-step">
+                <p className="v-step-q">Should she know it&apos;s you?</p>
+                <div className="v-step-opts">
+                  <button
+                    type="button"
+                    onClick={() => setReveal(false)}
+                    className={`v-opt${!reveal ? " is-on" : ""}`}
+                  >
+                    Keep me a mystery
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setReveal(true)}
+                    className={`v-opt${reveal ? " is-on" : ""}`}
+                  >
+                    Tell her
+                  </button>
+                </div>
+                {reveal && (
+                  <input className="v-step-input" placeholder="Your real name" autoFocus />
+                )}
+                <label className="v-photo">
+                  <input type="checkbox" />
+                  <span>I&apos;d rather not be in the photos or videos.</span>
+                </label>
+              </div>
+            )}
+          </div>
 
-          <button type="submit" className={`v-send ${display.className}`}>
-            Send it
-          </button>
+          <footer className="v-steps-foot">
+            {step > 0 ? (
+              <button type="button" className="v-back" onClick={() => setStep(step - 1)}>
+                Back
+              </button>
+            ) : (
+              <span />
+            )}
+            {step < 2 ? (
+              <button type="button" className="v-next" onClick={() => setStep(step + 1)}>
+                Next
+              </button>
+            ) : (
+              <button type="submit" className="v-next">
+                Send it
+              </button>
+            )}
+          </footer>
         </form>
       </section>
 
@@ -358,70 +392,112 @@ const CSS = `
 .v-h2 { margin: 0 0 10px; font-size: clamp(1.6rem, 3.6vw, 2.3rem); font-weight: 500; }
 .v-secret p { margin: 0; font-size: 16px; line-height: 1.75; color: var(--dim); max-width: 58ch; }
 
-.v-form-wrap { padding-top: clamp(30px, 5vw, 58px); scroll-margin-top: 24px; }
-.v-form-wrap form { display: flex; flex-direction: column; gap: 22px; }
-.v-form-wrap fieldset { border: 0; margin: 0; padding: 0; }
-.v-form-wrap legend, .v-field > span {
-  font-size: 10.5px;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--dim);
-  padding: 0 0 10px;
-}
-.v-field { display: flex; flex-direction: column; gap: 8px; }
-.v-field > span { padding: 0; }
-.v-field input, .v-field textarea {
-  font: inherit;
-  font-size: 16px;
-  background: #FFFDFA;
-  border: 1px solid rgba(20,26,43,0.2);
-  padding: 13px 15px;
-  color: var(--navy);
-  resize: vertical;
-  border-radius: 2px;
-}
-.v-field input::placeholder, .v-field textarea::placeholder { color: #ABA7B6; }
-.v-field input:focus, .v-field textarea:focus { outline: none; border-color: var(--gold); }
+.v-form-wrap { padding-top: clamp(26px, 4vw, 48px); scroll-margin-top: 20px; }
 
-.v-row { display: flex; gap: 9px; flex-wrap: wrap; }
-.v-chip {
+/* One question per screen. The stacked version ran ~700px on a phone, which
+   put the send button two thumb-scrolls below the question. */
+.v-steps {
+  background: #FFFDFA;
+  border: 1px solid rgba(20,26,43,0.14);
+  border-radius: 4px;
+  box-shadow: 0 18px 40px -26px rgba(20,26,43,0.5);
+  display: flex;
+  flex-direction: column;
+}
+.v-steps-head {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: clamp(16px, 3vw, 22px) clamp(18px, 3.4vw, 28px) 14px;
+}
+.v-steps-k { font-size: clamp(1.1rem, 2.6vw, 1.4rem); }
+.v-steps-count { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--dim); }
+.v-steps-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: rgba(20,26,43,0.1); }
+.v-steps-bar i { display: block; height: 100%; background: var(--gold); transition: width 320ms ease; }
+
+.v-steps-body { padding: clamp(18px, 3.4vw, 26px) clamp(18px, 3.4vw, 28px); min-height: 150px; }
+.v-step { display: flex; flex-direction: column; gap: 12px; animation: v-slide 320ms ease both; }
+@keyframes v-slide { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: none; } }
+.v-step-q { margin: 0; font-size: clamp(1.05rem, 2.4vw, 1.25rem); }
+.v-step-hint { margin: -4px 0 0; font-size: 13px; color: var(--dim); }
+.v-step-opts { display: flex; gap: 8px; flex-wrap: wrap; }
+.v-opt {
   cursor: pointer;
   font: inherit;
-  font-size: 14.5px;
-  padding: 11px 20px;
+  font-size: 15px;
+  /* 48px tall: thumb-sized, not mouse-sized */
+  padding: 14px 20px;
+  min-height: 48px;
   border: 1px solid rgba(20,26,43,0.24);
   background: transparent;
-  color: var(--dim);
+  color: var(--navy);
   border-radius: 999px;
-  transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
 }
-.v-chip:hover { border-color: var(--navy); color: var(--navy); }
-.v-chip.is-on { background: var(--navy); border-color: var(--navy); color: var(--paper); }
-.v-early { margin: 11px 0 0; font-size: 14px; color: var(--gold); }
+.v-opt:hover { border-color: var(--navy); }
+.v-opt.is-on { background: var(--navy); border-color: var(--navy); color: var(--paper); }
+
+.v-step-input {
+  font: inherit;
+  /* 16px keeps iOS from zooming the viewport on focus */
+  font-size: 16px;
+  width: 100%;
+  background: #FFFFFF;
+  border: 1px solid rgba(20,26,43,0.22);
+  border-radius: 2px;
+  padding: 14px 15px;
+  color: var(--navy);
+}
+.v-step-area { resize: vertical; line-height: 1.5; }
+.v-step-input::placeholder { color: #ABA7B6; }
+.v-step-input:focus { outline: none; border-color: var(--gold); }
+.v-early { margin: 0; font-size: 14px; color: var(--gold); }
 
 .v-photo {
   display: flex;
-  gap: 11px;
+  gap: 10px;
   align-items: flex-start;
-  font-size: 14.5px;
-  line-height: 1.55;
+  font-size: 14px;
+  line-height: 1.5;
   color: var(--dim);
   cursor: pointer;
 }
-.v-photo input { margin-top: 3px; accent-color: var(--gold); cursor: pointer; }
+.v-photo input { margin-top: 2px; accent-color: var(--gold); cursor: pointer; }
 
-.v-send {
+.v-steps-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 clamp(18px, 3.4vw, 28px) clamp(18px, 3vw, 24px);
+}
+.v-back {
   cursor: pointer;
-  align-self: flex-start;
-  font-size: 17px;
-  padding: 14px 36px;
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 0;
+  color: var(--dim);
+  padding: 10px 2px;
+}
+.v-back:hover { color: var(--navy); }
+.v-next {
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  min-height: 48px;
+  padding: 14px 34px;
   border: 0;
   border-radius: 999px;
   background: var(--navy);
   color: var(--paper);
-  transition: background 180ms ease, transform 180ms ease;
+  transition: background 180ms ease;
 }
-.v-send:hover { background: var(--gold); transform: translateY(-2px); }
+.v-next:hover { background: var(--gold); }
 
 .v-wall { padding-top: clamp(34px, 5vw, 62px); }
 .v-stack { list-style: none; margin: 18px 0 0; padding: 0; }
