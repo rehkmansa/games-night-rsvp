@@ -3,10 +3,10 @@
 import Link from "next/link";
 
 const OPTIONS = [
-  { href: "/sample/a", label: "A", note: "Giant date, colour blocks. Loud and quick to read." },
-  { href: "/sample/b", label: "B", note: "An admit-one pass with a tear-off stub. Dark and sharp." },
-  { href: "/sample/c", label: "C", note: "Bright printed inks on speckled paper." },
-  { href: "/sample/d", label: "D", note: "A postcard on a desk, typed and handwritten." },
+  { href: "/sample/a", label: "A", note: "Dark, kinetic. Scroll drags the details past sideways." },
+  { href: "/sample/b", label: "B", note: "An admit-one pass with a tear-off stub." },
+  { href: "/sample/c", label: "C", note: "Split screen. Fixed type wall on the left, details on the right." },
+  { href: "/sample/d", label: "D", note: "A card that tilts under your cursor and flips over." },
 ];
 
 export default function SampleIndex() {
