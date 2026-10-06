@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 
+// /studio-sample is deliberately not listed here: it stays reachable by URL for
+// internal review but never shows up in the set shared with guests.
 const OPTIONS = [
   { href: "/sample/b", label: "B", note: "An admit-one pass with a tear-off stub." },
   { href: "/sample/c", label: "C", note: "Cream card on deep green. Warm and classic." },
   { href: "/sample/d", label: "D", note: "A landscape envelope that opens and slides the card out." },
-  { href: "/studio-sample", label: "Studio", note: "Dark and kinetic, on its own page." },
 ];
 
 export default function SampleIndex() {
