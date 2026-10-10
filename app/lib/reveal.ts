@@ -18,7 +18,9 @@ export function toPublicRsvps(store: RsvpStore): PublicRsvp[] {
     secretName: entry.secretName,
     status: entry.status,
     game: entry.game,
-    realName: entry.realName,
+    // Her real name goes public only if she said yes; the guest list in /admin
+    // is a separate surface with a separate rule.
+    realName: entry.showName ? entry.name : undefined,
     memory: open ? entry.memory : undefined,
   }));
 }

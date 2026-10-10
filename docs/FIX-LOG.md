@@ -104,3 +104,47 @@ needs no equivalent guard.
 
 **How verified.** Loaded `/admin` with a stored entry and confirmed the memory
 text is absent until "Show memories" is pressed, and present after.
+
+
+---
+
+## FIX-2026-10-10-04 — Host could not see who was coming
+
+**Symptom.** `/admin` is the page Hannah uses to count heads for food and drinks,
+but most rows showed no name at all — only a secret alias like "Room 3B".
+
+**Root cause.** One field was doing two jobs. The form asked for a secret name
+and offered "Keep me a mystery", which suppressed any real name entirely. But
+anonymity was only ever meant to apply to *which memory is yours*, not to
+*whether you are coming*. Collapsing both into one toggle meant opting out of
+the game also opted you out of the guest list.
+
+**Evidence (measured).** With the old shape, a guest who chose "Keep me a
+mystery" stored `realName: undefined`, so the host's list showed **0 of 1**
+identifying fields for that guest. After the split, `name` is required, so the
+list shows **1 of 1** — while the alias→memory pairing stays hidden until she
+asks for it.
+
+**Blast radius.** The split touches every layer that reads identity:
+`lib/types.ts` (`name` required, `showName` boolean), `actions.ts` (validates
+`name`), `lib/reveal.ts` (publishes `name` only when `showName`),
+`admin/EntryList.tsx` (name always, `secretName` only inside the memories
+toggle). Entries written before the split are normalised on read in
+`lib/storage.ts`, mapping the old opt-in `realName` onto `name`/`showName`.
+The public wall is the surface at risk here: if `toPublicRsvps` ever returns
+`name` unconditionally, every guest who asked to stay unsigned is outed.
+
+**The trap this creates, deliberately avoided.** Printing `name` next to
+`secretName` in the admin list would hand Hannah the answer to the guessing
+game on page load — the exact spoiler FIX-2026-10-10-03 exists to prevent. So
+`secretName` is rendered only when the memories toggle is on, and reads
+"signs as X" to make the pairing explicit at the moment she chooses to see it.
+
+**Files.** `app/lib/types.ts`, `app/lib/storage.ts`, `app/lib/reveal.ts`,
+`app/actions.ts`, `app/components/RsvpForm.tsx`, `app/admin/EntryList.tsx`,
+`app/admin/page.tsx`.
+
+**How verified.** Submitted a reply as "Tobi Adeyemi" signing as "Room 3B" with
+`showName` off. Public page: real name absent, memory absent, alias present.
+Admin before toggle: `Tobi Adeyemi` with status/game/photos and no alias. Admin
+after toggle: `Tobi Adeyemi · signs as Room 3B` plus the memory.

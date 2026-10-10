@@ -49,6 +49,18 @@ export function RsvpForm() {
   return (
     <form ref={formRef} action={formAction} className="a-form">
       <div className="a-field">
+        <label htmlFor="name">Your name</label>
+        <input
+          id="name"
+          name="name"
+          required
+          maxLength={80}
+          placeholder="So she knows who's coming"
+        />
+        <p className="a-hint">For the headcount. Not shown next to your memory.</p>
+      </div>
+
+      <div className="a-field">
         <label htmlFor="secretName">Your secret name</label>
         <input
           id="secretName"
@@ -57,7 +69,7 @@ export function RsvpForm() {
           maxLength={60}
           placeholder="Aux Gremlin. Room 3B. Person From Church."
         />
-        <p className="a-hint">This is all she sees.</p>
+        <p className="a-hint">This is what signs your memory.</p>
       </div>
 
       <fieldset className="a-status">
@@ -113,35 +125,28 @@ export function RsvpForm() {
       </div>
 
       <div className="a-reveal">
-        <p className="a-reveal-q">Should she know it&apos;s you?</p>
-        <input type="hidden" name="reveal" value={reveal ? "yes" : "no"} />
+        <p className="a-reveal-q">Show your name next to your memory?</p>
+        <p className="a-hint">
+          She has your name on the guest list either way. This is only about whether the memory is
+          signed with it when she opens them.
+        </p>
+        <input type="hidden" name="showName" value={reveal ? "yes" : "no"} />
         <div className="a-chips">
           <button
             type="button"
             className={`a-chip${!reveal ? " is-on" : ""}`}
             onClick={() => setReveal(false)}
           >
-            Keep me a mystery
+            Keep it a mystery
           </button>
           <button
             type="button"
             className={`a-chip${reveal ? " is-on" : ""}`}
             onClick={() => setReveal(true)}
           >
-            Fine, tell her
+            Sign it with my name
           </button>
         </div>
-        {reveal && (
-          <div className="a-field a-field-reveal">
-            <label htmlFor="realName">Your real name</label>
-            <input
-              id="realName"
-              name="realName"
-              maxLength={80}
-              placeholder="Shown next to your secret name"
-            />
-          </div>
-        )}
       </div>
 
       <fieldset className="a-status">

@@ -75,7 +75,7 @@ export default async function AdminPage() {
         <p className="mt-4 border-l-4 border-plum bg-plum/10 px-4 py-3 text-[15px]">
           <strong>{noPhotos.length}</strong>{" "}
           {noPhotos.length === 1 ? "person has" : "people have"} asked not to be photographed:{" "}
-          {noPhotos.map((e) => e.realName ?? e.secretName).join(", ")}. Tell whoever is shooting.
+          {noPhotos.map((e) => e.name || "unnamed").join(", ")}. Tell whoever is shooting.
         </p>
       )}
 

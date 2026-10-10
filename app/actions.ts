@@ -23,14 +23,17 @@ export async function submitRsvp(
   _prev: RsvpFormState,
   formData: FormData,
 ): Promise<RsvpFormState> {
+  const name = clean(formData.get("name"), 80);
   const secretName = clean(formData.get("secretName"), 60);
   const memory = clean(formData.get("memory"), 500);
   const status = clean(formData.get("status"), 10) as RsvpStatus;
-  const reveal = clean(formData.get("reveal"), 5) === "yes";
-  const realName = clean(formData.get("realName"), 80);
+  const showName = clean(formData.get("showName"), 5) === "yes";
   const game = clean(formData.get("game"), 10) as GameChoice;
   const photoPolicy = clean(formData.get("photoPolicy"), 5) as PhotoPolicy;
 
+  if (!name) {
+    return { ok: false, error: "We need your name for the guest list." };
+  }
   if (!secretName || !memory) {
     return { ok: false, error: "We need a secret name and a memory." };
   }
@@ -57,19 +60,17 @@ export async function submitRsvp(
   if (!VALID_PHOTO.includes(photoPolicy)) {
     return { ok: false, error: "Let us know how you feel about photos." };
   }
-  if (reveal && !realName) {
-    return { ok: false, error: "You said to tell her, so add your real name." };
-  }
 
   const entry: Rsvp = {
     id: randomUUID(),
+    name,
     secretName,
     memory,
     status,
     game,
     photoPolicy,
+    showName,
     createdAt: new Date().toISOString(),
-    ...(reveal ? { realName } : {}),
   };
 
   try {

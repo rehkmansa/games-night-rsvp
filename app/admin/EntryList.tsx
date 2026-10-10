@@ -22,6 +22,12 @@ const STATUS_LABEL: Record<RsvpStatus, string> = {
  * Memories appear only after an explicit click, and the control says what it
  * will do so nobody trips over it.
  *
+ * The guest's REAL NAME is always shown: Hannah plans food off this list. What
+ * stays hidden is the pairing of that name with a secret name and a memory,
+ * because seeing both columns at once answers the guessing game for her before
+ * she plays it. So secretName sits inside the toggle with the memory, never
+ * beside the name.
+ *
  * This is a SPOILER guard, not a security boundary, and the distinction
  * matters: the text is already in this page's payload, because an authenticated
  * host is allowed to read it. The boundary that stops *guests* reading memories
@@ -54,7 +60,8 @@ export function EntryList({ entries }: { entries: Rsvp[] }) {
 
       {!showMemories && (
         <p className="mt-2 text-[13px] text-soft">
-          Memories stay hidden here so you don&apos;t spoil them by accident.
+          Names and replies are below. Memories and secret names stay hidden so the guessing game
+          survives.
         </p>
       )}
 
@@ -63,9 +70,12 @@ export function EntryList({ entries }: { entries: Rsvp[] }) {
           <li key={e.id} className="bg-card p-5 text-ink paper-shadow">
             <div className="flex flex-wrap items-baseline justify-between gap-3">
               <p className="font-display text-lg font-extrabold">
-                {e.secretName}
-                {e.realName && (
-                  <span className="font-body text-sm font-normal text-soft"> · {e.realName}</span>
+                {e.name || <span className="text-soft">No name given</span>}
+                {showMemories && (
+                  <span className="font-body text-sm font-normal text-soft">
+                    {" "}
+                    · signs as {e.secretName}
+                  </span>
                 )}
               </p>
               <span className="rounded-full bg-ink/8 px-3 py-1 text-[10.5px] font-bold uppercase tracking-[0.14em] text-soft">

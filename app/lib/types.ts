@@ -8,14 +8,22 @@ export type PhotoPolicy = "fine" | "no";
 
 export type Rsvp = {
   id: string;
-  /** The alias shown publicly. The only name Hannah sees before she guesses. */
+  /**
+   * Real name. Always collected: Hannah plans food and drinks off this list, so
+   * "who is coming" cannot be optional. This is NOT the same question as
+   * whether the guest is willing to be linked to their memory.
+   */
+  name: string;
+  /** The alias the memory is signed with. Kept apart from `name` until reveal. */
   secretName: string;
   /** A memory the guest and Hannah share. Hidden until the store is revealed. */
   memory: string;
   status: RsvpStatus;
   game: GameChoice;
   photoPolicy: PhotoPolicy;
-  /** Optional. Present only if the guest chose to unmask themselves. */
+  /** Guest is happy for their real name to sit next to their memory publicly. */
+  showName: boolean;
+  /** Legacy alias for `name` on entries written before the split. */
   realName?: string;
   /**
    * Legacy. Entries written before the photo question became a required choice
@@ -32,6 +40,7 @@ export type PublicRsvp = {
   secretName: string;
   status: RsvpStatus;
   game: GameChoice;
+  /** Only present when the guest opted to be named publicly. */
   realName?: string;
   memory?: string;
 };

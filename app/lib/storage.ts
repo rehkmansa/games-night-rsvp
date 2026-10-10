@@ -34,6 +34,9 @@ function normaliseEntry(entry: Rsvp): Rsvp {
     ...entry,
     game: entry.game ?? "hottakes",
     photoPolicy: entry.photoPolicy ?? (entry.photoOptOut ? "no" : "fine"),
+    // Entries from before the split only have the opt-in `realName`.
+    name: entry.name ?? entry.realName ?? "",
+    showName: entry.showName ?? Boolean(entry.realName),
   };
 }
 
