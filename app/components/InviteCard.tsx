@@ -43,6 +43,16 @@ export function InviteCard() {
       <div className="a-rule" />
 
       <div className="a-game">
+        <p className="a-game-head font-display">Two games, pick one</p>
+        <p>
+          Rage bait hot takes, where you defend your worst opinion out loud. Or a murder mystery,
+          where you play a character and work out who did it. Say which when you reply.
+        </p>
+      </div>
+
+      <div className="a-rule" />
+
+      <div className="a-game">
         <p className="a-game-head font-display">Leave a fond memory</p>
         <p>
           Leave Hannah a memory from the two of you. Keep it personal, and sign it with a secret

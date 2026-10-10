@@ -17,6 +17,7 @@ export function toPublicRsvps(store: RsvpStore): PublicRsvp[] {
     id: entry.id,
     secretName: entry.secretName,
     status: entry.status,
+    game: entry.game,
     realName: entry.realName,
     memory: open ? entry.memory : undefined,
   }));

@@ -24,9 +24,22 @@ const useDevFile = () =>
 
 const EMPTY: RsvpStore = { entries: [], revealedAt: null };
 
+/**
+ * Entries written before the photo question became a required choice have
+ * `photoOptOut: boolean` and no `photoPolicy`/`game`. Rather than migrate the
+ * blob, fill the gaps on read so old and new replies render identically.
+ */
+function normaliseEntry(entry: Rsvp): Rsvp {
+  return {
+    ...entry,
+    game: entry.game ?? "hottakes",
+    photoPolicy: entry.photoPolicy ?? (entry.photoOptOut ? "no" : "fine"),
+  };
+}
+
 function normalise(data: Partial<RsvpStore> | null): RsvpStore {
   return {
-    entries: data?.entries ?? [],
+    entries: (data?.entries ?? []).map(normaliseEntry),
     revealedAt: data?.revealedAt ?? null,
   };
 }

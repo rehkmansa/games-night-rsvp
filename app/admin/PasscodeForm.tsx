@@ -9,7 +9,7 @@ export function PasscodeForm() {
   return (
     <form
       action={action}
-      className="mx-auto flex w-[min(100%,360px)] flex-col gap-4 bg-card p-7 paper-shadow"
+      className="mx-auto flex w-[min(100%,360px)] flex-col gap-4 bg-card p-7 text-ink paper-shadow"
     >
       <h1 className="font-display text-2xl font-extrabold">Admin</h1>
       <label className="flex flex-col gap-1.5">

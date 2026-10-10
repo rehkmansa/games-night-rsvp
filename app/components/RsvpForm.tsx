@@ -11,10 +11,23 @@ const STATUSES = [
   { value: "cant", label: "Can't make it" },
 ] as const;
 
+const GAMES = [
+  { value: "hottakes", label: "Rage bait hot takes", note: "Defend your worst opinion." },
+  { value: "murder", label: "Murder mystery", note: "Play a character, find the killer." },
+] as const;
+
+const PHOTOS = [
+  { value: "fine", label: "Fine with photos" },
+  { value: "no", label: "Please keep me out" },
+] as const;
+
 export function RsvpForm() {
   const [state, formAction, pending] = useActionState(submitRsvp, initialState);
   const [status, setStatus] = useState<string>("coming");
   const [reveal, setReveal] = useState(false);
+  const [game, setGame] = useState<string>("");
+  // No default: see FIX-2026-10-10-02 in actions.ts.
+  const [photoPolicy, setPhotoPolicy] = useState<string>("");
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
@@ -22,6 +35,8 @@ export function RsvpForm() {
       formRef.current?.reset();
       setStatus("coming");
       setReveal(false);
+      setGame("");
+      setPhotoPolicy("");
       return;
     }
     if (state.error && formRef.current) {
@@ -59,6 +74,27 @@ export function RsvpForm() {
                 className="sr-only"
               />
               {s.label}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <fieldset className="a-status">
+        <legend>Which game are you in</legend>
+        <div className="a-picks">
+          {GAMES.map((g) => (
+            <label key={g.value} className={`a-pick${game === g.value ? " is-on" : ""}`}>
+              <input
+                type="radio"
+                name="game"
+                value={g.value}
+                checked={game === g.value}
+                onChange={() => setGame(g.value)}
+                required
+                className="sr-only"
+              />
+              <span className="a-pick-label">{g.label}</span>
+              <span className="a-pick-note">{g.note}</span>
             </label>
           ))}
         </div>
@@ -108,10 +144,26 @@ export function RsvpForm() {
         )}
       </div>
 
-      <label className="a-photo">
-        <input type="checkbox" name="photoOptOut" value="yes" />
-        <span>I&apos;d rather not be in the photos or videos.</span>
-      </label>
+      <fieldset className="a-status">
+        <legend>Photos and videos</legend>
+        <p className="a-hint">Someone will be shooting on the day, so we need an answer either way.</p>
+        <div className="a-chips">
+          {PHOTOS.map((o) => (
+            <label key={o.value} className={`a-chip${photoPolicy === o.value ? " is-on" : ""}`}>
+              <input
+                type="radio"
+                name="photoPolicy"
+                value={o.value}
+                checked={photoPolicy === o.value}
+                onChange={() => setPhotoPolicy(o.value)}
+                required
+                className="sr-only"
+              />
+              {o.label}
+            </label>
+          ))}
+        </div>
+      </fieldset>
 
       {state.error && <p className="a-error font-hand">{state.error}</p>}
       {state.ok && (

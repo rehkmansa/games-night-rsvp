@@ -6,6 +6,11 @@
   --color-ink: #17130e;
   --color-red: #c9302b;
   --color-teal: #1c7c7c;
+  /* /admin is a light surface sitting on the same green page, so it needs the
+     card colours that the invite's own stylesheet does not expose. */
+  --color-card: #fbf3e2;
+  --color-soft: #5b5245;
+  --color-plum: #7c5580;
 
   --font-display: var(--font-display);
   --font-hand: var(--font-hand);
@@ -46,7 +51,7 @@ body > * {
     radial-gradient(ellipse at 85% 20%, rgba(28,124,124,0.22) 0%, transparent 50%),
     linear-gradient(180deg, var(--pine) 0%, var(--pine-deep) 100%);
   color: var(--stock);
-  padding: clamp(28px, 6vw, 72px) 20px 80px;
+  padding: clamp(22px, 6vw, 72px) clamp(12px, 4vw, 20px) 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -58,7 +63,19 @@ body > * {
   background: var(--stock);
   color: var(--ink);
   border-radius: 4px;
-  padding: clamp(34px, 5vw, 60px) clamp(24px, 5vw, 60px) clamp(28px, 5vw, 56px);
+  /*
+   * [FIX-2026-10-10-01] Side padding starts at 18px, not 24px.
+   *
+   * On a 390px phone the old clamp floor of 24px each side, inside the page's
+   * own 20px gutter, left the form only 302px of the 390px screen: 23% of the
+   * width was margin, and the inputs and chips were visibly cramped. The
+   * vertical floors are deliberately left alone, because the breathing room
+   * between sections is what makes the card read as a card rather than a form.
+   * Blast radius: the page gutter in the :root/body rule below is the other
+   * half of the same squeeze; if this ever feels tight again, reduce that
+   * before touching this.
+   */
+  padding: clamp(26px, 5vw, 60px) clamp(18px, 5vw, 60px) clamp(24px, 5vw, 56px);
   box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset, 0 26px 60px -20px rgba(0,0,0,0.55);
   position: relative;
   overflow: hidden;
@@ -170,6 +187,29 @@ body > * {
 .a-game p:last-child { margin: 0; font-size: 15px; line-height: 1.65; color: var(--ink-soft); }
 
 .a-form { display: flex; flex-direction: column; gap: 24px; }
+
+.paper-shadow { box-shadow: 0 12px 26px -18px rgba(0,0,0,0.5); }
+
+/* Two-line options, for choices that need a word of explanation. */
+.a-picks { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.a-pick {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 14px 16px;
+  border-radius: 4px;
+  border: 1.5px solid rgba(23,19,14,0.28);
+  background: rgba(255,255,255,0.45);
+  transition: background 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+.a-pick:hover { border-color: var(--ink); }
+.a-pick.is-on { background: var(--pine); border-color: var(--pine); color: var(--stock); }
+.a-pick-label { font-size: 16px; font-weight: 700; }
+.a-pick-note { font-size: 13px; color: var(--ink-soft); }
+.a-pick.is-on .a-pick-note { color: rgba(251,243,226,0.75); }
+
+.a-status .a-hint { margin: -4px 0 10px; }
 .a-field { display: flex; flex-direction: column; gap: 8px; }
 .a-field label,
 .a-status legend,

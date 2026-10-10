@@ -10,7 +10,7 @@ export function RevealToggle({ revealed }: { revealed: boolean }) {
   if (revealed) {
     return (
       <div className="flex flex-wrap items-center gap-4 border-2 border-coral bg-coral/10 p-5">
-        <p className="font-display text-lg font-extrabold">Memories are showing on the site.</p>
+        <p className="font-display text-lg font-extrabold">Memories are live on the site</p>
         <button
           type="button"
           disabled={pending}
@@ -25,7 +25,7 @@ export function RevealToggle({ revealed }: { revealed: boolean }) {
 
   return (
     <div className="flex flex-wrap items-center gap-4 border-2 border-dashed border-ink/30 p-5">
-      <p className="font-display text-lg font-extrabold">Memories are sealed.</p>
+      <p className="font-display text-lg font-extrabold">Reveal memories</p>
       {confirming ? (
         <div className="flex flex-wrap items-center gap-2.5">
           <span className="text-sm text-soft">Show every memory on the public page?</span>
