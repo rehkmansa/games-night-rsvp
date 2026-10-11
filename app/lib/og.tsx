@@ -3,14 +3,14 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Birthday Hangout. Saturday 24 October, at her estate. Reply by 17 October.";
+  "Birthday Hangout. Saturday 24 October, at her estate. Reply by Wednesday 14 October.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const FACTS = [
-  { k: "WHEN", v: "Sat 24 October" },
-  { k: "WHERE", v: "Her estate" },
-  { k: "REPLY BY", v: "Sat 17 October" },
+  { k: "THE DAY", v: "Sat 24 October" },
+  { k: "REPLY BY", v: "Wed 14 October" },
+  { k: "THE PLACE", v: "Her estate" },
 ];
 
 async function font(file: string) {
@@ -23,10 +23,10 @@ async function font(file: string) {
  * more than one child sets display:flex explicitly.
  */
 export async function renderOgImage(): Promise<ImageResponse> {
-  const [bricolage, caveat, work] = await Promise.all([
-    font("Bricolage-Bold.ttf"),
+  const [fraunces, caveat, karla] = await Promise.all([
+    font("Fraunces-Bold.ttf"),
     font("Caveat-Bold.ttf"),
-    font("WorkSans-Medium.ttf"),
+    font("Karla-SemiBold.ttf"),
   ]);
 
   return new ImageResponse(
@@ -38,7 +38,7 @@ export async function renderOgImage(): Promise<ImageResponse> {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#FDF8F3",
+          background: "linear-gradient(160deg, #10362E 0%, #0B2721 100%)",
           padding: 54,
         }}
       >
@@ -49,49 +49,47 @@ export async function renderOgImage(): Promise<ImageResponse> {
             flexDirection: "column",
             width: "100%",
             height: "100%",
-            background: "#FFFFFF",
-            padding: "58px 62px",
-            boxShadow: "0 18px 40px rgba(36,26,23,0.16)",
+            background: "#FBF3E2",
+            padding: "62px 64px",
+            boxShadow: "0 26px 60px rgba(0,0,0,0.45)",
           }}
         >
-          {/* masking tape, same as the page */}
-          <div
-            style={{
-              position: "absolute",
-              top: -13,
-              left: 90,
-              width: 150,
-              height: 34,
-              background: "rgba(223,160,70,0.62)",
-              transform: "rotate(-5deg)",
-            }}
-          />
-
-          <div style={{ fontFamily: "Caveat", fontSize: 40, color: "#D9634A" }}>
-            she would really love you there
+          {/* the card's four-colour ribbon, same as the page */}
+          <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 14, display: "flex" }}>
+            {["#C9302B", "#E9A317", "#1C7C7C", "#10362E"].map((c) => (
+              <div key={c} style={{ width: "25%", height: "100%", background: c }} />
+            ))}
           </div>
 
+          {/* same order as the card: eyebrow, invitation line, name, hand note */}
           <div
             style={{
-              fontFamily: "Bricolage",
-              fontSize: 92,
-              color: "#241A17",
-              letterSpacing: -3,
-              marginTop: 6,
+              fontFamily: "Karla",
+              fontSize: 19,
+              letterSpacing: 6,
+              color: "#1C7C7C",
             }}
           >
-            Hannah&apos;s
+            BIRTHDAY HANGOUT
+          </div>
+
+          <div style={{ fontFamily: "Fraunces", fontSize: 44, color: "#17130E", marginTop: 20 }}>
+            You&apos;re invited to
           </div>
           <div
             style={{
-              fontFamily: "Bricolage",
-              fontSize: 92,
-              color: "#D9634A",
-              letterSpacing: -3,
-              marginTop: -8,
+              fontFamily: "Fraunces",
+              fontSize: 104,
+              color: "#17130E",
+              letterSpacing: -4,
+              marginTop: -4,
             }}
           >
-            birthday hangout
+            Hannah&apos;s hangout
+          </div>
+
+          <div style={{ fontFamily: "Caveat", fontSize: 38, color: "#5B5245", marginTop: 12 }}>
+            food and drinks are on her, just bring yourself
           </div>
 
           <div style={{ flex: 1 }} />
@@ -101,19 +99,19 @@ export async function renderOgImage(): Promise<ImageResponse> {
               <div key={f.k} style={{ display: "flex", flexDirection: "column" }}>
                 <div
                   style={{
-                    fontFamily: "WorkSans",
+                    fontFamily: "Karla",
                     fontSize: 17,
                     letterSpacing: 4,
-                    color: "#8C7A72",
+                    color: "#5B5245",
                   }}
                 >
                   {f.k}
                 </div>
                 <div
                   style={{
-                    fontFamily: "Bricolage",
+                    fontFamily: "Fraunces",
                     fontSize: 34,
-                    color: "#241A17",
+                    color: "#17130E",
                     marginTop: 6,
                   }}
                 >
@@ -125,14 +123,14 @@ export async function renderOgImage(): Promise<ImageResponse> {
 
           <div
             style={{
-              fontFamily: "WorkSans",
+              fontFamily: "Karla",
               fontSize: 22,
-              color: "#8C7A72",
+              color: "#5B5245",
               marginTop: 24,
             }}
           >
-            Exact address closer to the day · food and drinks sorted · leave a memory under a
-            secret name
+            Address closer to the day · two games to pick from · leave her a memory under a secret
+            name
           </div>
         </div>
       </div>
@@ -140,9 +138,9 @@ export async function renderOgImage(): Promise<ImageResponse> {
     {
       ...size,
       fonts: [
-        { name: "Bricolage", data: bricolage, style: "normal", weight: 700 },
+        { name: "Fraunces", data: fraunces, style: "normal", weight: 700 },
         { name: "Caveat", data: caveat, style: "normal", weight: 700 },
-        { name: "WorkSans", data: work, style: "normal", weight: 500 },
+        { name: "Karla", data: karla, style: "normal", weight: 600 },
       ],
     },
   );

@@ -2,7 +2,7 @@ import { RsvpForm } from "./RsvpForm";
 
 const DETAILS = [
   { k: "The day", v: "Saturday 24 October" },
-  { k: "Reply by", v: "Sat 17 October" },
+  { k: "Reply by", v: "Wed 14 October" },
   { k: "The place", v: "Her estate", note: "address closer to the day" },
 ];
 

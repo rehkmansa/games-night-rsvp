@@ -1,9 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="12" fill="#FDF8F3"/>
-  <!-- a taped scrap of paper, the site's whole idea at 16px -->
-  <rect x="10" y="12" width="44" height="40" rx="2" fill="#FFFFFF" stroke="#241A17" stroke-width="2.5"/>
-  <rect x="20" y="7" width="24" height="9" rx="1.5" fill="#DFA046" transform="rotate(-6 32 11)"/>
-  <path d="M18 30 h28" stroke="#D9634A" stroke-width="5" stroke-linecap="round"/>
-  <path d="M18 39 h20" stroke="#241A17" stroke-width="3.5" stroke-linecap="round" opacity="0.35"/>
-  <path d="M18 46 h13" stroke="#241A17" stroke-width="3.5" stroke-linecap="round" opacity="0.2"/>
+  <!-- the site in miniature: cream card on pine, with its four-colour ribbon -->
+  <rect width="64" height="64" rx="12" fill="#10362E"/>
+  <rect x="9" y="12" width="46" height="40" rx="3" fill="#FBF3E2"/>
+  <g>
+    <rect x="9" y="12" width="11.5" height="6" fill="#C9302B"/>
+    <rect x="20.5" y="12" width="11.5" height="6" fill="#E9A317"/>
+    <rect x="32" y="12" width="11.5" height="6" fill="#1C7C7C"/>
+    <rect x="43.5" y="12" width="11.5" height="6" fill="#10362E"/>
+  </g>
+  <path d="M16 29 h22" stroke="#17130E" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M16 37 h30" stroke="#17130E" stroke-width="3" stroke-linecap="round" opacity="0.32"/>
+  <path d="M16 44 h18" stroke="#17130E" stroke-width="3" stroke-linecap="round" opacity="0.32"/>
 </svg>
