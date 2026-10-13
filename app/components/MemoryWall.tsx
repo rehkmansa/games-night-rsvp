@@ -12,15 +12,13 @@ export function MemoryWall({ entries, open }: { entries: PublicRsvp[]; open: boo
       <header className="a-wall-head">
         <h2 className="font-display">
           {entries.length === 0
-            ? "No replies yet"
-            : `${entries.length} ${entries.length === 1 ? "reply" : "replies"}${open ? "" : ", all sealed"}`}
+            ? "No memories yet"
+            : `${entries.length} ${entries.length === 1 ? "memory" : "memories"}`}
         </h2>
         <p>
           {entries.length === 0
-            ? "Be the first. Yours sits sealed here until she opens them."
-            : open
-              ? "She opens them all at once and starts guessing."
-              : "Sealed until she opens them."}
+            ? "Nothing here yet."
+            : "Hannah has opened them. Now she has to work out who wrote what."}
         </p>
       </header>
 

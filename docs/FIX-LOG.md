@@ -148,3 +148,48 @@ game on page load — the exact spoiler FIX-2026-10-10-03 exists to prevent. So
 `showName` off. Public page: real name absent, memory absent, alias present.
 Admin before toggle: `Tobi Adeyemi` with status/game/photos and no alias. Admin
 after toggle: `Tobi Adeyemi · signs as Room 3B` plus the memory.
+
+
+---
+
+## FIX-2026-10-13-01 — Invite link doubled as a public attendance list
+
+**Symptom.** Anyone holding the invite link could see who had replied — every
+guest's secret name, their status and their game — without any credential.
+
+**Root cause.** `app/page.tsx` rendered `<MemoryWall>` unconditionally. The
+memory TEXT was correctly stripped server-side by `toPublicRsvps()`, which made
+the leak easy to miss: the thing everyone had been guarding was safe, so the
+wall looked safe. But the wall's other columns were never filtered, so the
+roster itself was public. A guest who replied "can't make it" had that published
+to every other guest.
+
+**Evidence (measured).** With one stored reply (name "Zainab Bello", alias
+"Perpetually Late", status `cant`, game `murder`, photo `no`), occurrences in
+the public HTML before the fix: alias **1**, status/game rendered, reply count
+**1**. After: alias **0**, memory **0**, real name **0**, photo policy **0**,
+reply count **0** — **4 of 4 leaked fields now absent**, verified by grepping
+the served HTML rather than by looking at the page.
+
+**Blast radius.** The fix is a conditional in `app/page.tsx`, deliberately
+placed so the entries are never passed when `revealedAt` is null — meaning
+`toPublicRsvps()` is not called and nothing is serialised. Rendering the wall
+with an empty array, or passing a `hidden` prop, would both have left the data
+one careless edit from the payload. The same "filtered one field, shipped the
+rest" shape is worth checking anywhere a server component spreads a stored
+record into props; in this repo the only other such surface is
+`app/admin/EntryList.tsx`, which is credentialled and intentionally shows
+everything. `app/lib/og.tsx` renders no guest data at all.
+
+**Layering.** This guard owns "is there a public list at all". It does NOT own
+"what is inside it" — `toPublicRsvps()` in `app/lib/reveal.ts` remains the
+authority for memory text and for honouring `showName`, and still applies after
+the host reveals. Neither layer should be relaxed on the assumption that the
+other is doing the work.
+
+**Files.** `app/page.tsx`, `app/components/MemoryWall.tsx` (copy only).
+
+**How verified.** Submitted a reply through the real form, then grepped the
+served HTML for all five stored fields: none present. Pressed "Reveal them" in
+`/admin` and re-grepped: alias and memory now present, real name still absent
+because that guest chose not to be named.
